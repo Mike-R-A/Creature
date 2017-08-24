@@ -1,3 +1,6 @@
 class World {
-    Things: Thing[];    
+    Things: Thing[];
+    draw(){
+        p.background([176,224,255]);
+    }
 }

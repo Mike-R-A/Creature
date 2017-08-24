@@ -12,10 +12,10 @@ var world = new World();
 world.Things = Helper.MakeFood(20);
 
 function draw() {
-    p.background(100);
+    world.draw();
     world.Things.forEach(t => {
         t.move(Helper.RandomIntFromInterval(-1,1),Helper.RandomIntFromInterval(-1,1));
-        t.draw()
+        t.draw();     
     });
     creature.draw();
 }
