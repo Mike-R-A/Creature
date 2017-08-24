@@ -1,3 +1,3 @@
 class Thing extends Drawable {   
-    smell: number[];  
+    smell: number[];
 }

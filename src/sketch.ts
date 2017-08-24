@@ -6,12 +6,16 @@ function windowResized() {
     p.resizeCanvas(p.windowWidth, p.windowHeight);
 }
 
-var creature = new Creature(20,20,25,50,[25,37,210],1,[34,132,19]);
+var creature = new Creature(20,20,25,25,[25,37,210],1,[34,132,19]);
 
-var food1 = new Thing(50,200,60,60,[25,67,233],10,[255,5,2]);
+var world = new World();
+world.Things = Helper.MakeFood(20);
 
 function draw() {
     p.background(100);
+    world.Things.forEach(t => {
+        t.move(Helper.RandomIntFromInterval(-1,1),Helper.RandomIntFromInterval(-1,1));
+        t.draw()
+    });
     creature.draw();
-    food1.draw();
 }

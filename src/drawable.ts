@@ -17,9 +17,35 @@ class Drawable {
     width: number;
     height: number;
     draw(){
+        if(this.x < this.width/2){
+            this.x = this.width/2;
+        }
+        if(this.x > p.windowWidth - this.width/2){
+            this.x = p.windowWidth - this.width/2;
+        }
+        if(this.y < this.height/2){
+            this.y = this.height/2;
+        }
+        if(this.y > p.windowHeight - this.height/2){
+            this.y = p.windowHeight - this.height/2;
+        }
         p.stroke(this.stroke);
         p.strokeWeight(this.strokeWeight);
         p.fill(this.fill);
-        p.rect(this.x, this.y, this.width, this.height);
+        p.ellipse(this.x, this.y, this.width, this.height);
+    }
+    move(x: number,y: number){
+        if(x>0){
+            this.x++;
+        } 
+        else if (x<0) {
+            this.x--
+        };
+        if(y>0){
+            this.y++;
+        } 
+        else if (y<0) {
+            this.y--
+        }
     }
 }
