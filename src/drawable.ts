@@ -1,9 +1,19 @@
 class Drawable {
+    constructor(x: number, y: number, width: number, height: number, 
+        stroke: number[], strokeWeight: number, fill: number[]){
+        this.x = x;
+        this.y = y;
+        this.stroke = stroke;
+        this.strokeWeight = strokeWeight;
+        this.fill = fill;
+        this.width = width;
+        this.height = height;
+    };
     x: number;
     y: number;
-    stroke: number;
+    stroke: number[];
     strokeWeight: number;
-    fill: number;
+    fill: number[];
     width: number;
     height: number;
     draw(){
