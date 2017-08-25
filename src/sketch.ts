@@ -19,8 +19,12 @@ function draw() {
     });
     creature.sniff(world);
     Helper.GraphSmell(creature.whatICanSmell);
+    Helper.GraphWellbeing(creature.wellbeing);
     creature.x = p.mouseX;
     creature.y = p.mouseY;
     creature.draw();
     world.eatThingsInEdibleReach(creature);
+    if(creature.wellbeing >= 1){
+        creature.wellbeing = creature.wellbeing-0.2;
+    }
 }

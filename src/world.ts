@@ -23,7 +23,6 @@ class World {
         var thingsInEdibleReach = this.Things.filter(thing => {
             return Math.abs(thing.x - creature.x) < (thing.width + creature.width)/2 && Math.abs(thing.y - creature.y) < (thing.height + creature.height)/2
         });
-        console.log(thingsInEdibleReach);
         return thingsInEdibleReach;
     }
 

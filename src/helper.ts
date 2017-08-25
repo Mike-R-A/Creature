@@ -54,4 +54,17 @@ module Helper {
         }
         p.text(Math.floor(totalSmell).toString(), 10,p.windowHeight - bottomOffset, leftOffset, bottomOffset);
     }
+
+    export function GraphWellbeing(wellbeing: number){
+        p.stroke(0);
+        p.strokeWeight(1);
+        p.fill([255,67,104]);
+        var rightOffset = 50;
+        var bottomOffset = 50;
+        var barWidth = 20;
+        var barHeight = wellbeing;
+        var x = p.windowWidth - rightOffset;
+        p.rect(x, p.windowHeight - barHeight - bottomOffset, barWidth, barHeight);
+        p.text(Math.floor(wellbeing).toString(), x, p.windowHeight - bottomOffset, barWidth, bottomOffset);
+    }
 }
