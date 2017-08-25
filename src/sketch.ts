@@ -17,5 +17,9 @@ function draw() {
         t.move(Helper.RandomIntFromInterval(-1,1),Helper.RandomIntFromInterval(-1,1));
         t.draw();     
     });
+    creature.sniff();
+    Helper.GraphSmell(creature.whatICanSmell);
+    creature.x = p.mouseX;
+    creature.y = p.mouseY;
     creature.draw();
 }
