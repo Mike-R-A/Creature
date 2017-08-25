@@ -11,6 +11,8 @@ class Drawable {
     };
     x: number;
     y: number;
+    lastX: number;
+    lastY: number;
     stroke: number[];
     strokeWeight: number;
     fill: number[];
@@ -35,6 +37,9 @@ class Drawable {
         p.ellipse(this.x, this.y, this.width, this.height);
     }
     move(x: number, y: number) {
+        debugger;
+        this.lastX = this.x;
+        this.lastY = this.y;
         if (x > 0) {
             this.x++;
         }

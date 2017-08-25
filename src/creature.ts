@@ -3,16 +3,25 @@ class Creature extends Thing {
         stroke: number[], strokeWeight: number, fill: number[], noOfSmells: number) {
         super(x, y, width, height, stroke, strokeWeight, fill);
         for (var i = 0; i < noOfSmells; i++) {
-            this.associations.push(1);
+            this.associations.push(Helper.RandomIntFromInterval(0, 5));
         }
         this.NormaliseAssociations;
     }
     associations: number[] = [];
     wellbeing: number = 0;
     whatICanSmell: number[];
+    smellUp: number[];
+    smellDown: number[];
+    smellLeft: number[];
+    smellRight: number[];
     sniff(world: World) {
         this.whatICanSmell = world.getSmellAtPosition(this.x, this.y);
+        this.smellUp = world.getSmellAtPosition(this.x, this.y + 1);
+        this.smellDown = world.getSmellAtPosition(this.x, this.y - 1);
+        this.smellLeft = world.getSmellAtPosition(this.x - 1, this.y);
+        this.smellRight = world.getSmellAtPosition(this.x + 1, this.y);
     }
+
     DoAssociating(world: World) {
         this.whatICanSmell = world.getSmellAtPosition(this.x, this.y);
         var whatICouldSmellPreviously = this.whatICanSmell;
@@ -30,7 +39,7 @@ class Creature extends Thing {
                 this.associations[i] += averageSmell[i] * changeInWellbeing / weightFactor;
             }
             this.NormaliseAssociations();
-        }, 50);
+        }, Helper.RandomIntFromInterval(50, 2000));
     }
 
     NormaliseAssociations() {
@@ -42,5 +51,34 @@ class Creature extends Thing {
         this.associations.forEach(association => {
             association = weightFactor * association / totalAssociations;
         });
+    }
+
+    GetDesireBySmell(smell: number[]): number {
+        var desireArray = [];
+        for (var i = 0; i < smell.length; i++) {
+            desireArray.push(smell[i] * this.associations[i]);
+        }
+        return desireArray.reduce((total, num) => {
+            return total + num;
+        });
+    }
+
+    DecideWhereToMove() {
+        var upDesire = this.GetDesireBySmell(this.smellUp);
+        var downDesire = this.GetDesireBySmell(this.smellDown);
+        var leftDesire = this.GetDesireBySmell(this.smellLeft);
+        var rightDesire = this.GetDesireBySmell(this.smellRight);
+        var xDesire = rightDesire - leftDesire;
+        var yDesire = upDesire - downDesire;
+        if (xDesire > 0) {
+            this.x++;
+        } else if (xDesire < 0) {
+            this.x--;
+        }
+        if (yDesire > 0) {
+            this.y++;
+        } else if (yDesire < 0) {
+            this.y--;
+        }
     }
 }

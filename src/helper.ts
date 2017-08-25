@@ -21,7 +21,7 @@ module Helper {
         var strokeWeight = 1;
         var thing = new Thing(x, y, diameter, diameter, [strokeR, strokeG, strokeB],
             strokeWeight, [fillR, fillG, fillB]);
-        var redGoodness = 1;
+        var redGoodness = 4;
         var greenGoodness = -2;
         var blueGoodness = 1;
         thing.nutritionalValuePerBite = (fillR * redGoodness + fillG * greenGoodness + fillB * blueGoodness) / (fillR + fillG + fillB);
@@ -85,7 +85,7 @@ module Helper {
         p.strokeWeight(1);
         p.fill([255, 67, 104]);
         var rightOffset = 50;
-        var bottomOffset = 50;
+        var bottomOffset = p.windowHeight / 2;
         var barWidth = 20;
         var barHeight = wellbeing;
         var x = p.windowWidth - rightOffset;
