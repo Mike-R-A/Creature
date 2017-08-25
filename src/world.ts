@@ -18,4 +18,35 @@ class World {
         }
         return smellAtPosition;
     }
+
+    getThingsInEdibleReach(creature: Creature): Thing[]{
+        var thingsInEdibleReach = this.Things.filter(thing => {
+            return Math.abs(thing.x - creature.x) < (thing.width + creature.width)/2 && Math.abs(thing.y - creature.y) < (thing.height + creature.height)/2
+        });
+        console.log(thingsInEdibleReach);
+        return thingsInEdibleReach;
+    }
+
+    eat(creature: Creature, thing: Thing){
+        if(thing.width > 1){
+            thing.width--;
+        } 
+        if(thing.height > 1){
+            thing.height--;
+        }
+        if(thing.width <= 1 && thing.height <=1) {
+            var index = this.Things.indexOf(thing);
+            var replacementThing = Helper.MakeRandomFoodItem();
+            this.Things.splice(index, 1, replacementThing);
+            this.Things.push();
+        }
+        creature.wellbeing++;
+    }
+
+    eatThingsInEdibleReach(creature: Creature){
+        var thingsInEdibleReach = this.getThingsInEdibleReach(creature);
+        thingsInEdibleReach.forEach(thing => {
+            this.eat(creature, thing);
+        });
+    }
 }

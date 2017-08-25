@@ -9,7 +9,7 @@ function windowResized() {
 var creature = new Creature(20,20,25,25,[25,37,210],1,[34,132,19]);
 
 var world = new World();
-world.Things = Helper.MakeFood(20);
+world.Things = Helper.MakeNoOfFoodItems(20);
 
 function draw() {
     world.draw();
@@ -17,9 +17,10 @@ function draw() {
         t.move(Helper.RandomIntFromInterval(-1,1),Helper.RandomIntFromInterval(-1,1));
         t.draw();     
     });
-    creature.sniff();
+    creature.sniff(world);
     Helper.GraphSmell(creature.whatICanSmell);
     creature.x = p.mouseX;
     creature.y = p.mouseY;
     creature.draw();
+    world.eatThingsInEdibleReach(creature);
 }

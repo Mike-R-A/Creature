@@ -1,24 +1,29 @@
 module Helper {
-    export function MakeFood(no: number): Thing[]{
+    export function MakeNoOfFoodItems(no: number): Thing[]{
         var things = [];
         for(var i = 0; i < no; i++){
-            var x = RandomIntFromInterval(0,p.windowWidth);
-            var y = RandomIntFromInterval(0,p.windowHeight);
-            var diameter = RandomIntFromInterval(10,100);
-            var strokeR = RandomIntFromInterval(0,255);
-            var strokeG = RandomIntFromInterval(0,255);
-            var strokeB = RandomIntFromInterval(0,255);
-            var fillR = RandomIntFromInterval(0,255);
-            var fillG = RandomIntFromInterval(0,255);
-            var fillB = RandomIntFromInterval(0,255);
-            var strokeWeight = 1;
-            var thing = new Thing(x,y,diameter,diameter,[strokeR, strokeG, strokeB],
-                strokeWeight,[fillR,fillG,fillB]);
-            thing.smell = [10*fillR*diameter,10*fillG*diameter,
-                10*fillB*diameter];
+            var thing = MakeRandomFoodItem();       
             things.push(thing);
         }
         return things;
+    }
+
+    export function MakeRandomFoodItem(): Thing{
+        var x = RandomIntFromInterval(0,p.windowWidth);
+        var y = RandomIntFromInterval(0,p.windowHeight);
+        var diameter = RandomIntFromInterval(10,100);
+        var strokeR = RandomIntFromInterval(0,255);
+        var strokeG = RandomIntFromInterval(0,255);
+        var strokeB = RandomIntFromInterval(0,255);
+        var fillR = RandomIntFromInterval(0,255);
+        var fillG = RandomIntFromInterval(0,255);
+        var fillB = RandomIntFromInterval(0,255);
+        var strokeWeight = 1;
+        var thing = new Thing(x,y,diameter,diameter,[strokeR, strokeG, strokeB],
+            strokeWeight,[fillR,fillG,fillB]);
+        thing.smell = [10*thing.fill[0]*thing.width,10*thing.fill[1]*thing.width,
+            10*thing.fill[2]*thing.width];       
+        return thing;
     }
 
     export function RandomIntFromInterval(min,max)
@@ -29,11 +34,16 @@ module Helper {
     export function GraphSmell(smell: number[]){
         p.stroke(0);
         p.strokeWeight(1);
-        p.fill(255,0,0);
+        var barColour: number[][] = [];
+        barColour[0] = [255,0,0];
+        barColour[1] = [0,255,0];
+        barColour[2] = [0,0,255];
+        
         var totalSmell = smell.reduce((total,num) => {
             return total + num;
         });
         for(var i=0; i<smell.length; i++){
+            p.fill(barColour[i]);
             var barHeight = smell[i] *200/totalSmell;
             var barWidth = 20;
             var leftOffset = 50;
