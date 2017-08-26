@@ -67,9 +67,8 @@ module Helper {
             var bottomOffset = 50;
             var x = i * 50 + leftOffset;
             p.rect(x, p.windowHeight - barHeight - bottomOffset, barWidth, barHeight);
-            p.text(Math.floor(smell[i]).toString(), x, p.windowHeight - bottomOffset, barWidth, bottomOffset);
+            p.text(smell[i].toFixed(2), x, p.windowHeight - bottomOffset, barWidth, bottomOffset);
         }
-        p.text(Math.floor(totalSmell).toString(), 10, p.windowHeight - bottomOffset, leftOffset, bottomOffset);
     }
 
 
