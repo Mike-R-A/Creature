@@ -1,14 +1,14 @@
 module Helper {
-    export function MakeNoOfFoodItems(no: number): Thing[] {
+    export function MakeNoOfFoodItems(no: number, world: World): Thing[] {
         var things = [];
         for (var i = 0; i < no; i++) {
-            var thing = MakeRandomFoodItem();
+            var thing = MakeRandomFoodItem(world);
             things.push(thing);
         }
         return things;
     }
 
-    export function MakeRandomFoodItem(): Thing {
+    export function MakeRandomFoodItem(world: World): Thing {
         var x = RandomIntFromInterval(0, p.windowWidth);
         var y = RandomIntFromInterval(0, p.windowHeight);
         var diameter = RandomIntFromInterval(10, 100);
@@ -18,13 +18,28 @@ module Helper {
         var fillR = RandomIntFromInterval(0, 255);
         var fillG = RandomIntFromInterval(0, 255);
         var fillB = RandomIntFromInterval(0, 255);
+        var rand = RandomIntFromInterval(-1, 20);
+        if (rand > 0) {
+            var colourChoice = Helper.RandomIntFromInterval(0, 2);
+            switch (colourChoice) {
+                case 0:
+                    fillG = 0;
+                    fillB = 0;
+                    break;
+                case 1:
+                    fillB = 0;
+                    fillR = 0;
+                    break;
+                case 2:
+                    fillR = 0;
+                    fillG = 0;
+                    break;
+            }
+        }
         var strokeWeight = 1;
         var thing = new Thing(x, y, diameter, diameter, [strokeR, strokeG, strokeB],
             strokeWeight, [fillR, fillG, fillB]);
-        var redGoodness = 4;
-        var greenGoodness = -2;
-        var blueGoodness = 1;
-        thing.nutritionalValuePerBite = (fillR * redGoodness + fillG * greenGoodness + fillB * blueGoodness) / (fillR + fillG + fillB);
+        thing.nutritionalValuePerBite = (fillR * world.goodness[0] + fillG * world.goodness[1] + fillB * world.goodness[2]) / (fillR + fillG + fillB);
         thing.setSmell();
         return thing;
     }
@@ -57,6 +72,30 @@ module Helper {
         p.text(Math.floor(totalSmell).toString(), 10, p.windowHeight - bottomOffset, leftOffset, bottomOffset);
     }
 
+
+    export function GraphGoodness(goodness: number[]) {
+        p.stroke(0);
+        p.strokeWeight(1);
+        var barColour: number[][] = [];
+        barColour[0] = [255, 0, 0];
+        barColour[1] = [0, 255, 0];
+        barColour[2] = [0, 0, 255];
+
+        var totalAssociations = goodness.reduce((total, num) => {
+            return Math.abs(total) + Math.abs(num);
+        });
+        for (var i = 0; i < goodness.length; i++) {
+            p.fill(barColour[i]);
+            var barHeight = goodness[i] * 100 / (totalAssociations + 1);
+            var barWidth = 20;
+            var leftOffset = 10;
+            var topOffset = 100;
+            var x = i * 50 + leftOffset;
+            p.rect(x, topOffset - barHeight, barWidth, barHeight);
+            p.text(Math.floor(goodness[i]).toString(), x, topOffset, barWidth, topOffset);
+        }
+    }
+
     export function GraphAssociations(associations: number[]) {
         p.stroke(0);
         p.strokeWeight(1);
@@ -72,11 +111,34 @@ module Helper {
             p.fill(barColour[i]);
             var barHeight = associations[i] * 100 / (totalAssociations + 1);
             var barWidth = 20;
-            var leftOffset = 50;
+            var leftOffset = 200;
             var topOffset = 100;
             var x = i * 50 + leftOffset;
             p.rect(x, topOffset - barHeight, barWidth, barHeight);
             p.text(Math.floor(associations[i]).toString(), x, topOffset, barWidth, topOffset);
+        }
+    }
+
+    export function GraphDesireForSmell(desireForSmell: number[]) {
+        p.stroke(0);
+        p.strokeWeight(1);
+        var barColour: number[][] = [];
+        barColour[0] = [255, 0, 0];
+        barColour[1] = [0, 255, 0];
+        barColour[2] = [0, 0, 255];
+
+        var totalAssociations = desireForSmell.reduce((total, num) => {
+            return Math.abs(total) + Math.abs(num);
+        });
+        for (var i = 0; i < desireForSmell.length; i++) {
+            p.fill(barColour[i]);
+            var barHeight = desireForSmell[i] * 100 / (totalAssociations + 1);
+            var barWidth = 20;
+            var leftOffset = 400;
+            var topOffset = 100;
+            var x = i * 50 + leftOffset;
+            p.rect(x, topOffset - barHeight, barWidth, barHeight);
+            p.text(Math.floor(desireForSmell[i]).toString(), x, topOffset, barWidth, topOffset);
         }
     }
 
