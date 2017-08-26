@@ -119,19 +119,20 @@ module Helper {
     }
 
     export function GraphDesireForSmell(desireForSmell: number[]) {
+        debugger;
         p.stroke(0);
         p.strokeWeight(1);
-        var barColour: number[][] = [];
+        var barColour = new Array(desireForSmell.length);
         barColour[0] = [255, 0, 0];
         barColour[1] = [0, 255, 0];
         barColour[2] = [0, 0, 255];
 
-        var totalAssociations = desireForSmell.reduce((total, num) => {
+        var totalDesire = desireForSmell.reduce((total, num) => {
             return Math.abs(total) + Math.abs(num);
         });
-        for (var i = 0; i < desireForSmell.length; i++) {
+        for (var i = 0; i < 3; i++) {
             p.fill(barColour[i]);
-            var barHeight = desireForSmell[i] * 100 / (totalAssociations + 1);
+            var barHeight = desireForSmell[i] * 100 / (totalDesire + 1);
             var barWidth = 20;
             var leftOffset = 400;
             var topOffset = 100;
@@ -154,5 +155,9 @@ module Helper {
         p.text(Math.floor(wellbeing).toString(), x, p.windowHeight - bottomOffset, barWidth, bottomOffset);
     }
 
-
+    export function GetTotalOfArray(array: number[]) {
+        return array.reduce((total, num) => {
+            return total + num;
+        });
+    }
 }

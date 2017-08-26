@@ -42,7 +42,7 @@ class Creature extends Thing {
                 this.associations[i] += averageSmell[i] * changeInWellbeing / weightFactor;
             }
             this.NormaliseAssociations();
-        }, Helper.RandomIntFromInterval(50, 2000));
+        }, Helper.RandomIntFromInterval(50, 3000));
     }
 
     NormaliseAssociations() {
@@ -54,12 +54,16 @@ class Creature extends Thing {
         for (var i = 0; i < noOfAssociations; i++) {
             this.associations[i] = weightFactor * this.associations[i] / totalAssociations;
         }
-        // this.associations.forEach(association => {
-        //     association = weightFactor * association / totalAssociations;
-        // });
     }
 
-    GetDesireBySmell(smell: number[]): number {
+    // GetDesireBySmell(smell: number[]): number {
+    //     var desireArray = this.GetDesireArray(smell);
+    //     return desireArray.reduce((total, num) => {
+    //         return total + num;
+    //     });
+    // }
+
+    GetDesireArray(smell: number[]): number[] {
         var desireArray = [];
         var wellbeingDeficit = this.idealWellbeing - this.wellbeing;
         for (var i = 0; i < smell.length; i++) {
@@ -79,24 +83,24 @@ class Creature extends Thing {
             } else {
                 desire = plainDesire;
             }
-            if (Math.sign(this.associations[i]) == Math.sign(wellbeingDeficit)) {
-                desire = desire + desire * Math.abs(wellbeingDeficit);
-            }
+            desire = desire + desire * Math.abs(wellbeingDeficit);
             desireArray.push(desire);
         }
-        this.desireForSmell = desireArray;
-        return desireArray.reduce((total, num) => {
-            return total + num;
-        });
+        return desireArray;
     }
 
     DecideWhereToMove() {
-        var upDesire = this.GetDesireBySmell(this.smellUp);
-        var downDesire = this.GetDesireBySmell(this.smellDown);
-        var leftDesire = this.GetDesireBySmell(this.smellLeft);
-        var rightDesire = this.GetDesireBySmell(this.smellRight);
-        var xDesire = rightDesire - leftDesire;
-        var yDesire = upDesire - downDesire;
+        var upDesireArray = this.GetDesireArray(this.smellUp);
+        var downDesireArray = this.GetDesireArray(this.smellDown);
+        var leftDesireArray = this.GetDesireArray(this.smellLeft);
+        var rightDesireArray = this.GetDesireArray(this.smellRight);
+        this.desireForSmell = [];
+        for (var i = 0; i < world.NoOfSmellTypes; i++) {
+            this.desireForSmell.push(upDesireArray[i] + downDesireArray[i] + leftDesireArray[i] + rightDesireArray[i]);
+        }
+
+        var xDesire = Helper.GetTotalOfArray(rightDesireArray) - Helper.GetTotalOfArray(leftDesireArray);
+        var yDesire = Helper.GetTotalOfArray(upDesireArray) - Helper.GetTotalOfArray(downDesireArray);
         if (xDesire > 0) {
             this.x++;
         } else if (xDesire < 0) {
