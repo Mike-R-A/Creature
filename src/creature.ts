@@ -62,17 +62,17 @@ class Creature extends Thing {
     GetDesireBySmell(smell: number[]): number {
         var desireArray = [];
         for (var i = 0; i < smell.length; i++) {
-            var associationBoost = 0;
+            var averageAssociation = 0;
             this.associations.forEach(association => {
-                associationBoost += association;
+                averageAssociation += association;
             });
-            associationBoost = -1 * associationBoost / this.associations.length;
+            var averageAssociation = averageAssociation / this.associations.length
             var tempAssociations: number[] = this.associations.map(a => {
-                return a + associationBoost;
+                return a - averageAssociation;
             });
             var plainDesire = smell[i] * this.associations[i] * Math.sign(this.idealWellbeing - this.wellbeing) * Math.pow(this.idealWellbeing - this.wellbeing, 2);
             var desireWithBoost = smell[i] * tempAssociations[i] * Math.sign(this.idealWellbeing - this.wellbeing) * Math.pow(this.idealWellbeing - this.wellbeing, 2);
-            if (this.idealWellbeing > this.wellbeing && this.associations.every(a => a <= 0)) {
+            if (this.idealWellbeing > this.wellbeing && averageAssociation < 0) {
                 desireArray.push(desireWithBoost);
             } else {
                 desireArray.push(plainDesire);
