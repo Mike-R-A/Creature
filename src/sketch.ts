@@ -9,7 +9,7 @@ function windowResized() {
 var creature = new Creature(p.windowWidth / 2, p.windowHeight / 2, 25, 25, [25, 37, 210], 1, [211, 185, 88], 3);
 
 var world = new World();
-world.Things = Helper.MakeNoOfFoodItems(20, world);
+world.Things = Helper.MakeNoOfFoodItems(10, world);
 
 var isFirstTime = true;
 
