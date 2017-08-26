@@ -45,7 +45,7 @@ function draw() {
             var rand = Helper.RandomIntFromInterval(0, world.Things.length - 1);
             var index = world.Things.indexOf(world.Things[rand]);
             world.Things.splice(index, 1, Helper.MakeRandomFoodItem(world));
-        }, 10000);
+        }, 60000);
         isFirstTime = false;
     }
     creature.NormaliseAssociations();
