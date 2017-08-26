@@ -72,7 +72,7 @@ class Creature extends Thing {
             });
             var plainDesire = smell[i] * this.associations[i] * Math.sign(this.idealWellbeing - this.wellbeing) * Math.pow(this.idealWellbeing - this.wellbeing, 2);
             var desireWithBoost = smell[i] * tempAssociations[i] * Math.sign(this.idealWellbeing - this.wellbeing) * Math.pow(this.idealWellbeing - this.wellbeing, 2);
-            if (this.idealWellbeing > this.wellbeing && averageAssociation < 0) {
+            if (this.idealWellbeing > this.wellbeing && plainDesire < 0) {
                 desireArray.push(desireWithBoost);
             } else {
                 desireArray.push(plainDesire);
