@@ -13,7 +13,7 @@ world.Things = Helper.MakeNoOfFoodItems(10, world);
 
 var isFirstTime = true;
 
-var changeAThingInterval;
+var aThingDiesInterval;
 
 var thingPathLength = 500;
 
@@ -26,11 +26,11 @@ function draw() {
     Helper.WorldStats(world);
     Helper.CreatureStats(creature);
     if (isFirstTime) {
-        changeAThingInterval = setInterval(() => {
+        aThingDiesInterval = setInterval(() => {
             var rand = Helper.RandomIntFromInterval(0, world.Things.length - 1);
             var index = world.Things.indexOf(world.Things[rand]);
-            world.Things.splice(index, 1, Helper.MakeRandomFoodItem(world));
-        }, 60000);
+            world.Things.splice(index, 1);
+        }, 20000);
         isFirstTime = false;
     }
 }
