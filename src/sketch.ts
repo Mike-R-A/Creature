@@ -47,6 +47,4 @@ function keyTyped() {
     } else if (p.key === 'b') {
         Helper.AddThing(world.Things, 0, p.windowHeight, 0, 0, 255);
     }
-    // uncomment to prevent any default behavior
-    // return false;
 }

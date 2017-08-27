@@ -39,7 +39,11 @@ module Helper {
         var strokeWeight = 1;
         var thing = new Thing(x, y, diameter, diameter, [strokeR, strokeG, strokeB],
             strokeWeight, [fillR, fillG, fillB]);
-        thing.nutritionalValuePerBite = (fillR * world.goodness[0] + fillG * world.goodness[1] + fillB * world.goodness[2]) / (fillR + fillG + fillB);
+        var totalFill = fillR + fillG + fillB;
+        if (totalFill == 0) {
+            totalFill = 1;
+        }
+        thing.nutritionalValuePerBite = (fillR * world.goodness[0] + fillG * world.goodness[1] + fillB * world.goodness[2]) / totalFill;
         thing.setSmell();
         return thing;
     }
@@ -53,7 +57,11 @@ module Helper {
         var fillB = b;
         var thing = new Thing(x, y, diameter, diameter, [strokeR, strokeG, strokeB],
             1, [fillR, fillG, fillB]);
-        thing.nutritionalValuePerBite = (fillR * world.goodness[0] + fillG * world.goodness[1] + fillB * world.goodness[2]) / (fillR + fillG + fillB);
+        var totalFill = fillR + fillG + fillB;
+        if (totalFill == 0) {
+            totalFill = 1;
+        }
+        thing.nutritionalValuePerBite = (fillR * world.goodness[0] + fillG * world.goodness[1] + fillB * world.goodness[2]) / totalFill;
         thing.setSmell();
         things.push(thing);
     }
@@ -93,7 +101,7 @@ module Helper {
             }
             for (var i = 0; i < arrayToGraph.length; i++) {
                 p.fill(barColours[i]);
-                var barHeight = arrayToGraph[i] * weightFactor / (total);
+                var barHeight = arrayToGraph[i] * weightFactor / total;
                 var x = i * (barWidth + 20) + leftOffset;
                 p.rect(x, topOffset - barHeight, barWidth, barHeight);
             }

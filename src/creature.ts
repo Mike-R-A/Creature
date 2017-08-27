@@ -54,18 +54,14 @@ class Creature extends Thing {
         var totalAssociations = this.associations.reduce((total, num) => {
             return Math.abs(total) + Math.abs(num);
         });
+        if (totalAssociations == 0) {
+            totalAssociations = 1;
+        }
         var weightFactor = 100;
         for (var i = 0; i < noOfAssociations; i++) {
             this.associations[i] = weightFactor * this.associations[i] / totalAssociations;
         }
     }
-
-    // GetDesireBySmell(smell: number[]): number {
-    //     var desireArray = this.GetDesireArray(smell);
-    //     return desireArray.reduce((total, num) => {
-    //         return total + num;
-    //     });
-    // }
 
     GetDesireArray(smell: number[]): number[] {
         var desireArray = [];
