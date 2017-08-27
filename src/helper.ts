@@ -43,6 +43,20 @@ module Helper {
         thing.setSmell();
         return thing;
     }
+    export function AddThing(things: Thing[], x: number, y: number, r: number, g: number, b: number) {
+        var diameter = RandomIntFromInterval(10, 100);
+        var strokeR = r;
+        var strokeG = g;
+        var strokeB = b;
+        var fillR = r;
+        var fillG = g;
+        var fillB = b;
+        var thing = new Thing(x, y, diameter, diameter, [strokeR, strokeG, strokeB],
+            1, [fillR, fillG, fillB]);
+        thing.nutritionalValuePerBite = (fillR * world.goodness[0] + fillG * world.goodness[1] + fillB * world.goodness[2]) / (fillR + fillG + fillB);
+        thing.setSmell();
+        things.push(thing);
+    }
     export function MoveThingsOnRandomPaths(things: Thing[], pathLength: number) {
         things.forEach(t => {
             var xChange = t.x - t.lastX;

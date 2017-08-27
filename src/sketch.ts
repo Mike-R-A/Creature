@@ -17,16 +17,18 @@ var changeAThingInterval;
 
 function draw() {
     world.draw();
-    Helper.MoveThingsOnRandomPaths(world.Things, 500);
-    creature.sniff(world);
-    Helper.WorldStats(world);
-    Helper.CreatureStats(creature);
-    creature.DecideWhereToMove();
-    creature.draw();
+    var thingPathLength = 500;
+    Helper.MoveThingsOnRandomPaths(world.Things, thingPathLength);
     world.eatThingsInEdibleReach(creature);
+    creature.sniff(world);
+    creature.DecideWhereToMove();
+    creature.NormaliseAssociations();
+    creature.draw();
 
     creature.wellbeing = creature.wellbeing - 0.05;
 
+    Helper.WorldStats(world);
+    Helper.CreatureStats(creature);
     if (isFirstTime) {
         changeAThingInterval = setInterval(() => {
             var rand = Helper.RandomIntFromInterval(0, world.Things.length - 1);
@@ -35,5 +37,16 @@ function draw() {
         }, 60000);
         isFirstTime = false;
     }
-    creature.NormaliseAssociations();
+}
+
+function keyTyped() {
+    if (p.key === 'r') {
+        Helper.AddThing(world.Things, 0, 0, 255, 0, 0);
+    } else if (p.key === 'g') {
+        Helper.AddThing(world.Things, p.windowWidth, 0, 0, 255, 0);
+    } else if (p.key === 'b') {
+        Helper.AddThing(world.Things, 0, p.windowHeight, 0, 0, 255);
+    }
+    // uncomment to prevent any default behavior
+    // return false;
 }

@@ -48,12 +48,16 @@ class World {
         }
         thing.setSmell();
         if (thing.width <= 1 && thing.height <= 1) {
-            var index = this.Things.indexOf(thing);
-            var replacementThing = Helper.MakeRandomFoodItem(world);
-            this.Things.splice(index, 1, replacementThing);
-            this.Things.push();
+            this.RemoveAndReplaceThing(thing);
         }
         creature.wellbeing = creature.wellbeing + thing.nutritionalValuePerBite;
+    }
+
+    RemoveAndReplaceThing(thing: Thing) {
+        var index = this.Things.indexOf(thing);
+        var replacementThing = Helper.MakeRandomFoodItem(world);
+        this.Things.splice(index, 1, replacementThing);
+        this.Things.push();
     }
 
     eatThingsInEdibleReach(creature: Creature) {
