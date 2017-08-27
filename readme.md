@@ -1,5 +1,5 @@
 # Creature
-## An attempt at some basic learning AI using p5.js and typescript
+## An attempt at some basic learning AI
 
 - The creature (a gold blob) will attempt to keep the bar on the right at 100 by eating the other blobs.
 - The different blobs have different nutritional values, positive and negative.
