@@ -41,7 +41,7 @@ class Creature extends Thing {
                 averageSmell[i] = (this.whatICanSmell[i] + whatICouldSmellPreviously[i]) / 2;
             }
             var changeInWellbeing = this.wellbeing - wellBeingPreviously;
-            var weightFactor = 2000;
+            var weightFactor = 200000;
             for (var i = 0; i < noOfSmells; i++) {
                 this.associations[i] += averageSmell[i] * changeInWellbeing / weightFactor;
             }

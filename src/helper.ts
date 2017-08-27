@@ -88,9 +88,12 @@ module Helper {
             var total = arrayToGraph.reduce((total, num) => {
                 return Math.abs(total) + Math.abs(num);
             });
+            if (total == 0) {
+                total = 1;
+            }
             for (var i = 0; i < arrayToGraph.length; i++) {
                 p.fill(barColours[i]);
-                var barHeight = arrayToGraph[i] * weightFactor / (total + 1);
+                var barHeight = arrayToGraph[i] * weightFactor / (total);
                 var x = i * (barWidth + 20) + leftOffset;
                 p.rect(x, topOffset - barHeight, barWidth, barHeight);
             }
@@ -124,7 +127,7 @@ module Helper {
             20,
             410,
             100,
-            "Current Desire"
+            "Current Thoughts"
         );
     }
     export function GraphSmell(smell: number[]) {

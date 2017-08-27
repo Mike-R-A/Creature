@@ -1,7 +1,7 @@
 class World {
     constructor() {
         for (var i = 0; i < this.NoOfSmellTypes; i++) {
-            this.goodness.push(Helper.RandomIntFromInterval(-5, 5))
+            this.goodness.push(Helper.RandomIntFromInterval(-5, 5) / 10)
         }
         if (this.goodness[0] < 0 && this.goodness[1] < 0 && this.goodness[2] < 0) {
             var choice = Helper.RandomIntFromInterval(0, 2);
@@ -11,9 +11,6 @@ class World {
     Things: Thing[];
     NoOfSmellTypes = 3;
     goodness: number[] = [];
-    // redGoodness = 4;
-    // greenGoodness = -5;
-    // blueGoodness = 1;
     draw() {
         p.background([176, 224, 255]);
     }
