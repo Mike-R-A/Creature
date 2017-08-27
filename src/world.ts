@@ -1,7 +1,7 @@
 class World {
     constructor() {
         for (var i = 0; i < this.NoOfSmellTypes; i++) {
-            this.goodness.push(Helper.RandomIntFromInterval(-5, 5) / 10)
+            this.goodness.push(Helper.RandomIntFromInterval(-2, 2))
         }
         if (this.goodness[0] < 0 && this.goodness[1] < 0 && this.goodness[2] < 0) {
             var choice = Helper.RandomIntFromInterval(0, 2);

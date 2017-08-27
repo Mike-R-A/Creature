@@ -22,7 +22,6 @@ function draw() {
     world.eatThingsInEdibleReach(creature);
     creature.sniff(world);
     creature.DecideWhereToMove();
-    creature.NormaliseAssociations();
     creature.draw();
 
     creature.wellbeing = creature.wellbeing - 0.01;
