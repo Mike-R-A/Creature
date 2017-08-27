@@ -14,7 +14,7 @@ class World {
         }
     }
     Things: Thing[];
-    NoOfSmellTypes = 4;
+    NoOfSmellTypes = 3;
     goodness: number[] = [];
     draw() {
         p.background([176, 224, 255]);

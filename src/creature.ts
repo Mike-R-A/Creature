@@ -3,7 +3,7 @@ class Creature extends Thing {
         stroke: number[], strokeWeight: number, fill: number[], smell: number[]) {
         super(world, x, y, width, height, stroke, strokeWeight, fill, smell);
         for (var i = 0; i < world.NoOfSmellTypes; i++) {
-            this.associations.push(Helper.RandomIntFromInterval(0, 5));
+            this.associations.push(1);
             this.desireForSmell.push(1);
         }
         this.associationInterval = setInterval(() => {
@@ -101,16 +101,9 @@ class Creature extends Thing {
 
         var xDesire = Helper.GetTotalOfArray(rightDesireArray) - Helper.GetTotalOfArray(leftDesireArray);
         var yDesire = Helper.GetTotalOfArray(upDesireArray) - Helper.GetTotalOfArray(downDesireArray);
-        if (xDesire > 0) {
-            this.x++;
-        } else if (xDesire < 0) {
-            this.x--;
-        }
-        if (yDesire > 0) {
-            this.y++;
-        } else if (yDesire < 0) {
-            this.y--;
-        }
+        var vectorMagnitude = Math.sqrt(Math.pow(xDesire, 2) + Math.pow(yDesire, 2));
+        this.x += xDesire / vectorMagnitude;
+        this.y += yDesire / vectorMagnitude;
     }
 
     Eat(thing: Thing, world: World) {
