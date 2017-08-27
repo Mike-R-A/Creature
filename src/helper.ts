@@ -43,105 +43,86 @@ module Helper {
         thing.setSmell();
         return thing;
     }
+    export function MoveThingsOnRandomPaths(things: Thing[], pathLength: number) {
+        things.forEach(t => {
+            var xChange = t.x - t.lastX;
+            var yChange = t.y - t.lastY;
+            t.move(Helper.RandomIntFromInterval(-1, pathLength) * xChange + Helper.RandomIntFromInterval(-1, 1),
+                Helper.RandomIntFromInterval(-1, pathLength) * yChange + Helper.RandomIntFromInterval(-1, 1));
+            t.draw();
+        });
+    }
 
     export function RandomIntFromInterval(min, max) {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
+    export function WorldStats(world: World) {
+        GraphGoodness(world.goodness);
+    }
+    export function CreatureStats(creature: Creature) {
+        GraphAssociations(creature.associations);
+        GraphDesireForSmell(creature.desireForSmell);
+        GraphSmell(creature.whatICanSmell);
+        GraphWellbeing(creature.wellbeing);
+    }
+    export function Graph(arrayToGraph: number[], barColours: number[][],
+        weightFactor: number, barWidth: number, leftOffset: number, topOffset: number, title: string) {
+        if (arrayToGraph) {
+            p.stroke(0);
+            p.strokeWeight(1);
 
-    export function GraphSmell(smell: number[]) {
-        p.stroke(0);
-        p.strokeWeight(1);
-        var barColour: number[][] = [];
-        barColour[0] = [255, 0, 0];
-        barColour[1] = [0, 255, 0];
-        barColour[2] = [0, 0, 255];
-
-        var totalSmell = smell.reduce((total, num) => {
-            return total + num;
-        });
-        for (var i = 0; i < smell.length; i++) {
-            p.fill(barColour[i]);
-            var barHeight = smell[i] * 200 / (totalSmell + 1);
-            var barWidth = 20;
-            var leftOffset = 50;
-            var bottomOffset = 50;
-            var x = i * 50 + leftOffset;
-            p.rect(x, p.windowHeight - barHeight - bottomOffset, barWidth, barHeight);
-            p.text(smell[i].toFixed(2), x, p.windowHeight - bottomOffset, barWidth, bottomOffset);
+            var total = arrayToGraph.reduce((total, num) => {
+                return Math.abs(total) + Math.abs(num);
+            });
+            for (var i = 0; i < arrayToGraph.length; i++) {
+                p.fill(barColours[i]);
+                var barHeight = arrayToGraph[i] * weightFactor / (total + 1);
+                var x = i * (barWidth + 20) + leftOffset;
+                p.rect(x, topOffset - barHeight, barWidth, barHeight);
+            }
+            p.text(title, leftOffset, topOffset, barWidth, topOffset);
         }
     }
-
-
     export function GraphGoodness(goodness: number[]) {
-        p.stroke(0);
-        p.strokeWeight(1);
-        var barColour: number[][] = [];
-        barColour[0] = [255, 0, 0];
-        barColour[1] = [0, 255, 0];
-        barColour[2] = [0, 0, 255];
-
-        var totalAssociations = goodness.reduce((total, num) => {
-            return Math.abs(total) + Math.abs(num);
-        });
-        for (var i = 0; i < goodness.length; i++) {
-            p.fill(barColour[i]);
-            var barHeight = goodness[i] * 100 / (totalAssociations + 1);
-            var barWidth = 20;
-            var leftOffset = 10;
-            var topOffset = 100;
-            var x = i * 50 + leftOffset;
-            p.rect(x, topOffset - barHeight, barWidth, barHeight);
-            p.text(Math.floor(goodness[i]).toString(), x, topOffset, barWidth, topOffset);
-        }
+        Graph(goodness,
+            [[255, 0, 0], [0, 255, 0], [0, 0, 255]],
+            100,
+            20,
+            10,
+            100,
+            "Nutritional Value"
+        );
     }
-
     export function GraphAssociations(associations: number[]) {
-        p.stroke(0);
-        p.strokeWeight(1);
-        var barColour: number[][] = [];
-        barColour[0] = [255, 0, 0];
-        barColour[1] = [0, 255, 0];
-        barColour[2] = [0, 0, 255];
-
-        var totalAssociations = associations.reduce((total, num) => {
-            return Math.abs(total) + Math.abs(num);
-        });
-        for (var i = 0; i < associations.length; i++) {
-            p.fill(barColour[i]);
-            var barHeight = associations[i] * 100 / (totalAssociations + 1);
-            var barWidth = 20;
-            var leftOffset = 200;
-            var topOffset = 100;
-            var x = i * 50 + leftOffset;
-            p.rect(x, topOffset - barHeight, barWidth, barHeight);
-            p.text(Math.floor(associations[i]).toString(), x, topOffset, barWidth, topOffset);
-        }
+        Graph(associations,
+            [[255, 0, 0], [0, 255, 0], [0, 0, 255]],
+            100,
+            20,
+            210,
+            100,
+            "Association with Nutritional Value"
+        );
     }
-
     export function GraphDesireForSmell(desireForSmell: number[]) {
-        debugger;
-        p.stroke(0);
-        p.strokeWeight(1);
-        var barColour = new Array(desireForSmell.length);
-        barColour[0] = [255, 0, 0];
-        barColour[1] = [0, 255, 0];
-        barColour[2] = [0, 0, 255];
-
-        var totalDesire = desireForSmell.reduce((total, num) => {
-            return Math.abs(total) + Math.abs(num);
-        });
-        for (var i = 0; i < 3; i++) {
-            p.fill(barColour[i]);
-            var barHeight = desireForSmell[i] * 100 / (totalDesire + 1);
-            var barWidth = 20;
-            var leftOffset = 400;
-            var topOffset = 100;
-            var x = i * 50 + leftOffset;
-            p.rect(x, topOffset - barHeight, barWidth, barHeight);
-            p.text(Math.floor(desireForSmell[i]).toString(), x, topOffset, barWidth, topOffset);
-        }
+        Graph(desireForSmell,
+            [[255, 0, 0], [0, 255, 0], [0, 0, 255]],
+            100,
+            20,
+            410,
+            100,
+            "Current Desire"
+        );
     }
-
+    export function GraphSmell(smell: number[]) {
+        Graph(smell,
+            [[255, 0, 0], [0, 255, 0], [0, 0, 255]],
+            100,
+            20,
+            610,
+            100,
+            "Current Smell"
+        );
+    }
     export function GraphWellbeing(wellbeing: number) {
         p.stroke(0);
         p.strokeWeight(1);

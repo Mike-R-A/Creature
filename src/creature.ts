@@ -1,13 +1,17 @@
 class Creature extends Thing {
-    constructor(x: number, y: number, width: number, height: number,
+    constructor(world: World, x: number, y: number, width: number, height: number,
         stroke: number[], strokeWeight: number, fill: number[], noOfSmells: number) {
         super(x, y, width, height, stroke, strokeWeight, fill);
         for (var i = 0; i < noOfSmells; i++) {
             this.associations.push(Helper.RandomIntFromInterval(0, 5));
             this.desireForSmell.push(1);
         }
+        this.associationInterval = setInterval(() => {
+            this.DoAssociating(world)
+        }, 10);
         this.NormaliseAssociations;
     }
+    associationInterval;
     associations: number[] = [];
     wellbeing: number = 0;
     idealWellbeing: number = 100;
