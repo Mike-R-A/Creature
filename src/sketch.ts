@@ -25,7 +25,7 @@ function draw() {
     creature.NormaliseAssociations();
     creature.draw();
 
-    creature.wellbeing = creature.wellbeing - 0.05;
+    creature.wellbeing = creature.wellbeing - 0.01;
 
     Helper.WorldStats(world);
     Helper.CreatureStats(creature);
