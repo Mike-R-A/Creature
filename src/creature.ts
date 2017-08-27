@@ -11,6 +11,7 @@ class Creature extends Thing {
         }, 10);
         this.NormaliseAssociations;
     }
+    maxSize = 100;
     associationInterval;
     associations: number[] = [];
     wellbeing: number = 0;
@@ -107,15 +108,20 @@ class Creature extends Thing {
     }
 
     Eat(thing: Thing, world: World) {
-        this.wellbeing += thing.getEaten(world);;
+        var changeInWellbeing = thing.getEaten(world);
+        this.wellbeing += changeInWellbeing;
+        if (this.width < this.maxSize) {
+            this.width += changeInWellbeing;
+        }
+        if (this.height < this.maxSize) {
+            this.height += changeInWellbeing;
+        }
     }
 
     EatThingsInReach(world: World) {
         var thingsInReach = world.GetThingsInReach(this);
         thingsInReach.forEach(thing => {
-            if (!(thing instanceof Creature)) {
-                this.Eat(thing, world);
-            }
+            this.Eat(thing, world);
         });
     }
 

@@ -20,6 +20,7 @@ class Thing extends Drawable {
         }
     }
     nutritionalValuePerBite: number;
+
     getEaten(world: World): number {
         if (this.width > 1) {
             this.width--;
