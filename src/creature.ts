@@ -22,15 +22,15 @@ class Creature extends Thing {
     smellRight: number[];
     desireForSmell: number[] = [];
     sniff(world: World) {
-        this.whatICanSmell = world.GetSmellAtPosition(this.x, this.y);
-        this.smellUp = world.GetSmellAtPosition(this.x, this.y + 1);
-        this.smellDown = world.GetSmellAtPosition(this.x, this.y - 1);
-        this.smellLeft = world.GetSmellAtPosition(this.x - 1, this.y);
-        this.smellRight = world.GetSmellAtPosition(this.x + 1, this.y);
+        this.whatICanSmell = world.GetSmellAtPosition(this.x, this.y, this);
+        this.smellUp = world.GetSmellAtPosition(this.x, this.y + 1, this);
+        this.smellDown = world.GetSmellAtPosition(this.x, this.y - 1, this);
+        this.smellLeft = world.GetSmellAtPosition(this.x - 1, this.y, this);
+        this.smellRight = world.GetSmellAtPosition(this.x + 1, this.y, this);
     }
 
     DoAssociating(world: World) {
-        this.whatICanSmell = world.GetSmellAtPosition(this.x, this.y);
+        this.whatICanSmell = world.GetSmellAtPosition(this.x, this.y, this);
         var whatICouldSmellPreviously = this.whatICanSmell;
         var wellBeingPreviously = this.wellbeing;
         var noOfSmells = this.whatICanSmell.length;
@@ -114,13 +114,15 @@ class Creature extends Thing {
     }
 
     Eat(thing: Thing, world: World) {
-        creature.wellbeing += thing.getEaten(world);;
+        this.wellbeing += thing.getEaten(world);;
     }
 
     EatThingsInReach(world: World) {
         var thingsInReach = world.GetThingsInReach(this);
         thingsInReach.forEach(thing => {
-            creature.Eat(thing, world);
+            if (!(thing instanceof Creature)) {
+                this.Eat(thing, world);
+            }
         });
     }
 

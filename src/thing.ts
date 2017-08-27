@@ -6,6 +6,9 @@ class Thing extends Drawable {
             this._smell.push(0);
         }
         this.smell = smell;
+        if (this instanceof Creature) {
+            console.log("creature thing constructor");
+        }
     }
     _smell: number[] = [];
     get smell(): number[] {

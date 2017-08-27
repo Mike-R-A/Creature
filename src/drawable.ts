@@ -37,19 +37,22 @@ class Drawable {
         p.ellipse(this.x, this.y, this.width, this.height);
     }
     move(x: number, y: number) {
-        this.lastX = this.x;
-        this.lastY = this.y;
-        if (x > 0) {
-            this.x++;
+        if (!(this instanceof Creature)) {
+            this.lastX = this.x;
+            this.lastY = this.y;
+            if (x > 0) {
+                this.x++;
+            }
+            else if (x < 0) {
+                this.x--
+            };
+            if (y > 0) {
+                this.y++;
+            }
+            else if (y < 0) {
+                this.y--
+            }
         }
-        else if (x < 0) {
-            this.x--
-        };
-        if (y > 0) {
-            this.y++;
-        }
-        else if (y < 0) {
-            this.y--
-        }
+
     }
 }

@@ -1,7 +1,11 @@
 class World {
     constructor() {
         for (var i = 0; i < this.NoOfSmellTypes; i++) {
-            this.goodness.push(Helper.RandomIntFromInterval(-2, 2))
+            if (i < 3) {
+                this.goodness.push(Helper.RandomIntFromInterval(-2, 2))
+            } else {
+                this.goodness.push(0);
+            }
         }
         if ((this.goodness[0] <= 0 && this.goodness[1] <= 0 && this.goodness[2] <= 0) ||
             (this.goodness[0] >= 0 && this.goodness[1] >= 0 && this.goodness[2] >= 0)) {
@@ -10,16 +14,19 @@ class World {
         }
     }
     Things: Thing[];
-    NoOfSmellTypes = 3;
+    NoOfSmellTypes = 4;
     goodness: number[] = [];
     draw() {
         p.background([176, 224, 255]);
     }
-    GetSmellAtPosition(x: number, y: number): number[] {
+    GetSmellAtPosition(x, y, creature: Creature): number[] {
         var smellAtPosition: number[] = [];
         for (var i = 0; i < this.NoOfSmellTypes; i++) {
             smellAtPosition.push(0);
-            this.Things.forEach(thing => {
+            var index = this.Things.indexOf(creature);
+            var otherThings = this.Things.slice();
+            otherThings.splice(index, 1);
+            otherThings.forEach(thing => {
                 var distanceSquared = Math.pow(thing.x - x, 2) + Math.pow(thing.y - y, 2);
                 if (distanceSquared < 1) {
                     distanceSquared = 1;
@@ -38,9 +45,12 @@ class World {
     }
 
     RemoveAndReplaceThing(thing: Thing) {
-        var index = this.Things.indexOf(thing);
-        var replacementThing = Helper.MakeRandomFoodItem(world);
-        this.Things.splice(index, 1, replacementThing);
-        this.Things.push();
+        if (!(thing instanceof Creature)) {
+            var index = this.Things.indexOf(thing);
+            var replacementThing = Helper.MakeRandomFoodItem(world);
+            this.Things.splice(index, 1, replacementThing);
+            this.Things.push();
+        }
+
     }
 }

@@ -7,9 +7,12 @@ function windowResized() {
 }
 
 var world = new World();
-var creature = new Creature(world, p.windowWidth / 2, p.windowHeight / 2, 25, 25, [25, 37, 210], 1, [211, 185, 88], [0, 0, 0, 255]);
+var creature1 = new Creature(world, p.windowWidth / 2, p.windowHeight / 2, 25, 25, [25, 37, 210], 1, [211, 185, 88], [0, 0, 0, 255]);
+// var creature2 = new Creature(world, p.windowWidth / 3, p.windowHeight / 3, 25, 25, [25, 37, 210], 1, [211, 185, 88], [0, 0, 0, 255]);
 
 world.Things = Helper.MakeNoOfFoodItems(10, world);
+world.Things.push(creature1);
+// world.Things.push(creature2);
 
 var isFirstTime = true;
 
@@ -20,11 +23,13 @@ var thingPathLength = 500;
 function draw() {
     world.draw();
     Helper.MoveThingsOnRandomPaths(world.Things, thingPathLength);
-    creature.LiveTheNextMoment(world);
-    creature.wellbeing = creature.wellbeing - 0.01;
+    creature1.LiveTheNextMoment(world);
+    creature1.wellbeing = creature1.wellbeing - 0.01;
+    // creature2.LiveTheNextMoment(world);
+    // creature2.wellbeing = creature1.wellbeing - 0.01;
 
     Helper.WorldStats(world);
-    Helper.CreatureStats(creature);
+    Helper.CreatureStats(creature1);
     if (isFirstTime) {
         aThingDiesInterval = setInterval(() => {
             var rand = Helper.RandomIntFromInterval(0, world.Things.length - 1);
