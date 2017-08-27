@@ -29,25 +29,11 @@ class World {
         return smellAtPosition;
     }
 
-    getThingsInEdibleReach(creature: Creature): Thing[] {
-        var thingsInEdibleReach = this.Things.filter(thing => {
+    getThingsInReach(creature: Creature): Thing[] {
+        var thingsInReach = this.Things.filter(thing => {
             return Math.abs(thing.x - creature.x) < (thing.width + creature.width) / 2 && Math.abs(thing.y - creature.y) < (thing.height + creature.height) / 2
         });
-        return thingsInEdibleReach;
-    }
-
-    eat(creature: Creature, thing: Thing) {
-        if (thing.width > 1) {
-            thing.width--;
-        }
-        if (thing.height > 1) {
-            thing.height--;
-        }
-        thing.setSmell();
-        if (thing.width <= 1 && thing.height <= 1) {
-            this.RemoveAndReplaceThing(thing);
-        }
-        creature.wellbeing = creature.wellbeing + thing.nutritionalValuePerBite;
+        return thingsInReach;
     }
 
     RemoveAndReplaceThing(thing: Thing) {
@@ -55,12 +41,5 @@ class World {
         var replacementThing = Helper.MakeRandomFoodItem(world);
         this.Things.splice(index, 1, replacementThing);
         this.Things.push();
-    }
-
-    eatThingsInEdibleReach(creature: Creature) {
-        var thingsInEdibleReach = this.getThingsInEdibleReach(creature);
-        thingsInEdibleReach.forEach(thing => {
-            this.eat(creature, thing);
-        });
     }
 }

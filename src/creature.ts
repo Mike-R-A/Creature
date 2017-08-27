@@ -112,4 +112,22 @@ class Creature extends Thing {
             this.y--;
         }
     }
+
+    Eat(thing: Thing, world: World) {
+        creature.wellbeing += thing.getEaten(world);;
+    }
+
+    EatThingsInReach(world: World) {
+        var thingsInReach = world.getThingsInReach(this);
+        thingsInReach.forEach(thing => {
+            creature.Eat(thing, world);
+        });
+    }
+
+    LiveTheNextMoment(world: World) {
+        this.sniff(world);
+        this.EatThingsInReach(world);
+        this.DecideWhereToMove();
+        super.draw();
+    }
 }

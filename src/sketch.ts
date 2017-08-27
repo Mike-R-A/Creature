@@ -15,15 +15,12 @@ var isFirstTime = true;
 
 var changeAThingInterval;
 
+var thingPathLength = 500;
+
 function draw() {
     world.draw();
-    var thingPathLength = 500;
     Helper.MoveThingsOnRandomPaths(world.Things, thingPathLength);
-    world.eatThingsInEdibleReach(creature);
-    creature.sniff(world);
-    creature.DecideWhereToMove();
-    creature.draw();
-
+    creature.LiveTheNextMoment(world);
     creature.wellbeing = creature.wellbeing - 0.01;
 
     Helper.WorldStats(world);
