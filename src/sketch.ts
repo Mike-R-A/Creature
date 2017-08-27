@@ -7,7 +7,7 @@ function windowResized() {
 }
 
 var world = new World();
-var creature = new Creature(world, p.windowWidth / 2, p.windowHeight / 2, 25, 25, [25, 37, 210], 1, [211, 185, 88], 3);
+var creature = new Creature(world, p.windowWidth / 2, p.windowHeight / 2, 25, 25, [25, 37, 210], 1, [211, 185, 88], [0, 0, 0, 255]);
 
 world.Things = Helper.MakeNoOfFoodItems(10, world);
 
@@ -37,10 +37,10 @@ function draw() {
 
 function keyTyped() {
     if (p.key === 'r') {
-        Helper.AddThing(world.Things, 0, 0, 255, 0, 0);
+        Helper.AddThing(world, 0, 0, 255, 0, 0);
     } else if (p.key === 'g') {
-        Helper.AddThing(world.Things, p.windowWidth, 0, 0, 255, 0);
+        Helper.AddThing(world, p.windowWidth, 0, 0, 255, 0);
     } else if (p.key === 'b') {
-        Helper.AddThing(world.Things, 0, p.windowHeight, 0, 0, 255);
+        Helper.AddThing(world, 0, p.windowHeight, 0, 0, 255);
     }
 }

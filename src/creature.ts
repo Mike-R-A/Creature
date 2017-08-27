@@ -1,8 +1,8 @@
 class Creature extends Thing {
     constructor(world: World, x: number, y: number, width: number, height: number,
-        stroke: number[], strokeWeight: number, fill: number[], noOfSmells: number) {
-        super(x, y, width, height, stroke, strokeWeight, fill);
-        for (var i = 0; i < noOfSmells; i++) {
+        stroke: number[], strokeWeight: number, fill: number[], smell: number[]) {
+        super(world, x, y, width, height, stroke, strokeWeight, fill, smell);
+        for (var i = 0; i < world.NoOfSmellTypes; i++) {
             this.associations.push(Helper.RandomIntFromInterval(0, 5));
             this.desireForSmell.push(1);
         }
@@ -22,15 +22,15 @@ class Creature extends Thing {
     smellRight: number[];
     desireForSmell: number[] = [];
     sniff(world: World) {
-        this.whatICanSmell = world.getSmellAtPosition(this.x, this.y);
-        this.smellUp = world.getSmellAtPosition(this.x, this.y + 1);
-        this.smellDown = world.getSmellAtPosition(this.x, this.y - 1);
-        this.smellLeft = world.getSmellAtPosition(this.x - 1, this.y);
-        this.smellRight = world.getSmellAtPosition(this.x + 1, this.y);
+        this.whatICanSmell = world.GetSmellAtPosition(this.x, this.y);
+        this.smellUp = world.GetSmellAtPosition(this.x, this.y + 1);
+        this.smellDown = world.GetSmellAtPosition(this.x, this.y - 1);
+        this.smellLeft = world.GetSmellAtPosition(this.x - 1, this.y);
+        this.smellRight = world.GetSmellAtPosition(this.x + 1, this.y);
     }
 
     DoAssociating(world: World) {
-        this.whatICanSmell = world.getSmellAtPosition(this.x, this.y);
+        this.whatICanSmell = world.GetSmellAtPosition(this.x, this.y);
         var whatICouldSmellPreviously = this.whatICanSmell;
         var wellBeingPreviously = this.wellbeing;
         var noOfSmells = this.whatICanSmell.length;
@@ -118,7 +118,7 @@ class Creature extends Thing {
     }
 
     EatThingsInReach(world: World) {
-        var thingsInReach = world.getThingsInReach(this);
+        var thingsInReach = world.GetThingsInReach(this);
         thingsInReach.forEach(thing => {
             creature.Eat(thing, world);
         });

@@ -15,7 +15,7 @@ class World {
     draw() {
         p.background([176, 224, 255]);
     }
-    getSmellAtPosition(x: number, y: number): number[] {
+    GetSmellAtPosition(x: number, y: number): number[] {
         var smellAtPosition: number[] = [];
         for (var i = 0; i < this.NoOfSmellTypes; i++) {
             smellAtPosition.push(0);
@@ -30,7 +30,7 @@ class World {
         return smellAtPosition;
     }
 
-    getThingsInReach(creature: Creature): Thing[] {
+    GetThingsInReach(creature: Creature): Thing[] {
         var thingsInReach = this.Things.filter(thing => {
             return Math.abs(thing.x - creature.x) < (thing.width + creature.width) / 2 && Math.abs(thing.y - creature.y) < (thing.height + creature.height) / 2
         });
