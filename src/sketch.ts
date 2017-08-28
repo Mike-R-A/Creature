@@ -24,7 +24,7 @@ var isFirstTime = true;
 
 var aThingDiesInterval;
 
-var thingPathLength = 50;
+var thingPathLength = 20;
 
 function draw() {
     world.draw();
