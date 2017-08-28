@@ -34,9 +34,7 @@ class Drawable {
         p.stroke(this.stroke);
         p.strokeWeight(this.strokeWeight);
         p.fill(this.fill);
-
         p.ellipse(this.x, this.y, this.width, this.height);
-
     }
     move(x: number, y: number) {
         if (!(this instanceof Creature)) {

@@ -10,6 +10,17 @@ class Thing extends Drawable {
             console.log("creature thing constructor");
         }
     }
+    _wellbeing: number = this.width;
+    get wellbeing() {
+        return this._wellbeing;
+    }
+    set wellbeing(value) {
+        this._wellbeing = value;
+        if (!(this instanceof Creature)) {
+            this.width = value;
+            this.height = value;
+        }
+    }
     _smell: number[] = [];
     get smell(): number[] {
         return this._smell.map(s => s * this.width);
@@ -22,13 +33,8 @@ class Thing extends Drawable {
     nutritionalValuePerBite: number;
 
     getEaten(world: World): number {
-        if (this.width > 1) {
-            this.width--;
-        }
-        if (this.height > 1) {
-            this.height--;
-        }
-        if (this.width <= 1 && this.height <= 1) {
+        this.wellbeing--;
+        if (this.wellbeing <= 1 && !(this instanceof Creature)) {
             world.RemoveAndReplaceThing(this);
         }
         return this.nutritionalValuePerBite;

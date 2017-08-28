@@ -14,7 +14,7 @@ class Creature extends Thing {
     maxSize = 100;
     associationInterval;
     associations: number[] = [];
-    wellbeing: number = 0;
+
     idealWellbeing: number = 100;
     whatICanSmell: number[];
     smellUp: number[];
@@ -103,6 +103,9 @@ class Creature extends Thing {
         var xDesire = Helper.GetTotalOfArray(rightDesireArray) - Helper.GetTotalOfArray(leftDesireArray);
         var yDesire = Helper.GetTotalOfArray(upDesireArray) - Helper.GetTotalOfArray(downDesireArray);
         var vectorMagnitude = Math.sqrt(Math.pow(xDesire, 2) + Math.pow(yDesire, 2));
+        if (vectorMagnitude == 0) {
+            vectorMagnitude = 1;
+        };
         this.x += xDesire / vectorMagnitude;
         this.y += yDesire / vectorMagnitude;
     }
@@ -110,12 +113,6 @@ class Creature extends Thing {
     Eat(thing: Thing, world: World) {
         var changeInWellbeing = thing.getEaten(world);
         this.wellbeing += changeInWellbeing;
-        if (this.width < this.maxSize) {
-            this.width += changeInWellbeing;
-        }
-        if (this.height < this.maxSize) {
-            this.height += changeInWellbeing;
-        }
     }
 
     EatThingsInReach(world: World) {

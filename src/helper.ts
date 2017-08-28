@@ -39,6 +39,7 @@ module Helper {
         var strokeWeight = 1;
         var thing = new Thing(world, x, y, diameter, diameter, [strokeR, strokeG, strokeB],
             strokeWeight, [fillR, fillG, fillB], [fillR, fillG, fillB]);
+        thing.wellbeing = diameter;
         var totalFill = fillR + fillG + fillB;
         if (totalFill == 0) {
             totalFill = 1;
@@ -62,6 +63,27 @@ module Helper {
         }
         thing.nutritionalValuePerBite = (fillR * world.goodness[0] + fillG * world.goodness[1] + fillB * world.goodness[2]) / totalFill;
         world.Things.push(thing);
+    }
+    export function MakeARandomCreature() {
+        var x = Helper.RandomIntFromInterval(0, p.windowWidth);
+        var y = Helper.RandomIntFromInterval(0, p.windowHeight);
+        var r = Helper.RandomIntFromInterval(0, 255);
+        var g = Helper.RandomIntFromInterval(0, 255);
+        var b = Helper.RandomIntFromInterval(0, 255);
+        var flip = Helper.RandomIntFromInterval(0, 1);
+        var smell1;
+        var smell2;
+        if (flip == 1) {
+            smell1 = 0;
+            smell2 = 255;
+        } else {
+            smell1 = 255;
+            smell2 = 0;
+        }
+        var creature = new Creature(world, x, y, 25, 25, [25, 37, 210], 1, [244, 229, 66], [0, 0, 0, smell1, smell2]);
+        creature.nutritionalValuePerBite = 1;
+        world.Things.push(creature);
+        return creature;
     }
     export function MoveThingsOnRandomPaths(things: Thing[], pathLength: number) {
         things.forEach(t => {
