@@ -7,10 +7,13 @@ class World {
                 this.goodness.push(0);
             }
         }
-        if ((this.goodness[0] <= 0 && this.goodness[1] <= 0 && this.goodness[2] <= 0) ||
-            (this.goodness[0] >= 0 && this.goodness[1] >= 0 && this.goodness[2] >= 0)) {
+        if (this.goodness[0] <= 0 && this.goodness[1] <= 0 && this.goodness[2] <= 0) {
             var choice = Helper.RandomIntFromInterval(0, 2);
-            this.goodness[choice] = this.goodness[choice] * -1;
+            this.goodness[choice] = Helper.RandomIntFromInterval(1, 2);
+        }
+        if (this.goodness[0] >= 0 && this.goodness[1] >= 0 && this.goodness[2] >= 0) {
+            var choice = Helper.RandomIntFromInterval(0, 2);
+            this.goodness[choice] = Helper.RandomIntFromInterval(-2, -1);
         }
     }
     Things: Thing[];
@@ -49,14 +52,9 @@ class World {
     }
 
     RemoveAndReplaceThing(thing: Thing) {
-        if (!(thing instanceof Creature)) {
-            var index = this.Things.indexOf(thing);
-            var replacementThing = Helper.MakeRandomFoodItem(world);
-            this.Things.splice(index, 1, replacementThing);
-            this.Things.push();
-        } else {
-            debugger;
-        }
-
+        var index = this.Things.indexOf(thing);
+        var replacementThing = Helper.MakeRandomFoodItem(world);
+        this.Things.splice(index, 1, replacementThing);
+        this.Things.push();
     }
 }

@@ -19,17 +19,17 @@ class Drawable {
     width: number;
     height: number;
     draw() {
-        if (this.x < this.width / 2) {
-            this.x = this.width / 2;
+        if (this.x < Math.abs(this.width / 2)) {
+            this.x = Math.abs(this.width / 2);
         }
-        if (this.x > p.windowWidth - this.width / 2) {
-            this.x = p.windowWidth - this.width / 2;
+        if (this.x > p.windowWidth - Math.abs(this.width / 2)) {
+            this.x = p.windowWidth - Math.abs(this.width / 2);
         }
-        if (this.y < this.height / 2) {
-            this.y = this.height / 2;
+        if (this.y < Math.abs(this.height / 2)) {
+            this.y = Math.abs(this.height / 2);
         }
-        if (this.y > p.windowHeight - this.height / 2) {
-            this.y = p.windowHeight - this.height / 2;
+        if (this.y > p.windowHeight - Math.abs(this.height / 2)) {
+            this.y = p.windowHeight - Math.abs(this.height / 2);
         }
         p.stroke(this.stroke);
         p.strokeWeight(this.strokeWeight);
