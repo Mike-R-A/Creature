@@ -90,8 +90,7 @@ module Helper {
             if (!(t instanceof Creature)) {
                 var xChange = t.x - t.lastX;
                 var yChange = t.y - t.lastY;
-                t.move(Helper.RandomIntFromInterval(-1, pathLength) * xChange + Helper.RandomIntFromInterval(-1, 1),
-                    Helper.RandomIntFromInterval(-1, pathLength) * yChange + Helper.RandomIntFromInterval(-1, 1));
+                t.move(things, pathLength);
                 t.draw();
             }
         });
