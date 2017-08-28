@@ -11,7 +11,7 @@ module Helper {
     export function MakeRandomFoodItem(world: World): Thing {
         var x = RandomIntFromInterval(0, p.windowWidth);
         var y = RandomIntFromInterval(0, p.windowHeight);
-        var diameter = RandomIntFromInterval(10, 100);
+        var diameter = RandomIntFromInterval(10, 50);
         var strokeR = RandomIntFromInterval(0, 255);
         var strokeG = RandomIntFromInterval(0, 255);
         var strokeB = RandomIntFromInterval(0, 255);
@@ -48,20 +48,12 @@ module Helper {
         return thing;
     }
     export function AddThing(world: World, x: number, y: number, r: number, g: number, b: number) {
+        var thing = Helper.MakeRandomFoodItem(world);
         var diameter = RandomIntFromInterval(10, 100);
-        var strokeR = r;
-        var strokeG = g;
-        var strokeB = b;
-        var fillR = r;
-        var fillG = g;
-        var fillB = b;
-        var thing = new Thing(world, x, y, diameter, diameter, [strokeR, strokeG, strokeB],
-            1, [fillR, fillG, fillB], [fillR, fillG, fillB]);
-        var totalFill = fillR + fillG + fillB;
-        if (totalFill == 0) {
-            totalFill = 1;
-        }
-        thing.nutritionalValuePerBite = (fillR * world.goodness[0] + fillG * world.goodness[1] + fillB * world.goodness[2]) / totalFill;
+        thing.x = x;
+        thing.y = y;
+        thing.stroke = [r, g, b];
+        thing.fill = [r, g, b];
         world.Things.push(thing);
     }
     export function MakeARandomCreature() {
