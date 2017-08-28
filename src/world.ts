@@ -17,6 +17,8 @@ class World {
         }
     }
     Things: Thing[];
+    noOfCreatures: number = 1;
+    maxFoodItems = 100;
     NoOfSmellTypes = 3;
     goodness: number[] = [];
     draw() {
@@ -53,9 +55,20 @@ class World {
 
     RemoveAndReplaceThing(thing: Thing) {
         var index = this.Things.indexOf(thing);
-        var replacementThing = Helper.MakeRandomFoodItem(world);
-        this.Things.splice(index, 1, replacementThing);
-        this.Things.push();
+        this.Things.splice(index, 1);
+        var noOfFoodItemsLeft = world.Things.length - world.noOfCreatures;
+        if (noOfFoodItemsLeft == 0) {
+            for (var i = 0; i < Helper.RandomIntFromInterval(1, 20); i++) {
+                var replacementThing = Helper.MakeRandomFoodItem(world);
+                this.Things.push(replacementThing);
+            }
+        } else if (noOfFoodItemsLeft < this.maxFoodItems - 3) {
+            for (var i = 0; i < Helper.RandomIntFromInterval(0, 3); i++) {
+                var replacementThing = Helper.MakeRandomFoodItem(world);
+                this.Things.push(replacementThing);
+            }
+        }
+
     }
 
     GetOtherThings(thing: Thing): Thing[] {

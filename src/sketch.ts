@@ -8,11 +8,11 @@ function windowResized() {
 
 var world = new World();
 world.NoOfSmellTypes = 5;
-var noOfCreatures = 6;
+world.noOfCreatures = 6;
 var creatures: Creature[] = [];
 world.Things = Helper.MakeNoOfFoodItems(10, world);
 var creatureForStats: Creature;
-for (var i = 0; i < noOfCreatures; i++) {
+for (var i = 0; i < world.noOfCreatures; i++) {
     var creature = Helper.MakeARandomCreature();
     if (i == 0) {
         creatureForStats = creature;
@@ -32,7 +32,7 @@ function draw() {
     world.Things.forEach(c => {
         if (c instanceof Creature) {
             c.LiveTheNextMoment(world);
-            c.wellbeing = c.wellbeing - 0.01;// * (1 + Math.abs(c.idealWellbeing - c.wellbeing) / 10);
+            c.wellbeing = c.wellbeing - 0.01;
         }
     });
 
@@ -43,7 +43,7 @@ function draw() {
             var rand = Helper.RandomIntFromInterval(0, world.Things.length - 1);
             var index = world.Things.indexOf(world.Things[rand]);
             if (!(world.Things[index] instanceof Creature)) {
-                world.Things.splice(index, 1);
+                world.RemoveAndReplaceThing(world.Things[index]);
             }
         }, 20000);
         isFirstTime = false;
