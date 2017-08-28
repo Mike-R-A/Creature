@@ -81,7 +81,7 @@ module Helper {
             smell2 = 0;
         }
         var creature = new Creature(world, x, y, 25, 25, [25, 37, 210], 1, [244, 229, 66], [0, 0, 0, smell1, smell2]);
-        creature.nutritionalValuePerBite = 1;
+        creature.nutritionalValuePerBite = 0;
         world.Things.push(creature);
         return creature;
     }
