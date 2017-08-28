@@ -9,8 +9,28 @@ module Helper {
     }
 
     export function MakeRandomFoodItem(world: World): Thing {
-        var x = RandomIntFromInterval(0, p.windowWidth);
-        var y = RandomIntFromInterval(0, p.windowHeight);
+        var randomSide = Helper.RandomIntFromInterval(1, 4);
+        var x: number;
+        var y: number;
+        switch (randomSide) {
+            case 1:
+                x = 0;
+                y = Helper.RandomIntFromInterval(0, p.windowHeight);
+                break;
+            case 2:
+                x = Helper.RandomIntFromInterval(0, p.windowWidth);
+                y = 0;
+                break;
+            case 3:
+                x = Helper.RandomIntFromInterval(0, p.windowWidth);
+                y = p.windowHeight;
+                break;
+            case 4:
+                x = p.windowWidth;
+                y = Helper.RandomIntFromInterval(0, p.windowHeight);
+                break;
+        }
+
         var diameter = RandomIntFromInterval(10, 50);
         var strokeR = RandomIntFromInterval(0, 255);
         var strokeG = RandomIntFromInterval(0, 255);
