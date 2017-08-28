@@ -85,12 +85,10 @@ module Helper {
         world.Things.push(creature);
         return creature;
     }
-    export function MoveThingsOnRandomPaths(things: Thing[], pathLength: number) {
-        things.forEach(t => {
+    export function MoveThingsOnRandomPaths(world: World, pathLength: number) {
+        world.Things.forEach(t => {
             if (!(t instanceof Creature)) {
-                var xChange = t.x - t.lastX;
-                var yChange = t.y - t.lastY;
-                t.move(things, pathLength);
+                t.move(world, pathLength);
                 t.draw();
             }
         });
@@ -186,5 +184,9 @@ module Helper {
         return array.reduce((total, num) => {
             return total + num;
         });
+    }
+
+    export function GetDistance(thing1: Thing, thing2: Thing) {
+        return Math.sqrt(Math.pow(thing2.x - thing1.x, 2) + Math.pow(thing2.y - thing1.y, 2));
     }
 }

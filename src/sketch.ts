@@ -24,11 +24,11 @@ var isFirstTime = true;
 
 var aThingDiesInterval;
 
-var thingPathLength = 500;
+var thingPathLength = 50;
 
 function draw() {
     world.draw();
-    Helper.MoveThingsOnRandomPaths(world.Things, thingPathLength);
+    Helper.MoveThingsOnRandomPaths(world, thingPathLength);
     world.Things.forEach(c => {
         if (c instanceof Creature) {
             c.LiveTheNextMoment(world);

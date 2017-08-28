@@ -45,7 +45,7 @@ class World {
         var otherThings = this.Things.slice();
         otherThings.splice(index, 1);
         var thingsInReach = otherThings.filter(thing => {
-            var distanceBetween = Math.sqrt(Math.pow(thing.x - creature.x, 2) + Math.pow(thing.y - creature.y, 2));
+            var distanceBetween = Helper.GetDistance(thing, creature);// Math.sqrt(Math.pow(thing.x - creature.x, 2) + Math.pow(thing.y - creature.y, 2));
             return distanceBetween < (thing.width + creature.width) / 2;
         });
         return thingsInReach;
@@ -56,5 +56,12 @@ class World {
         var replacementThing = Helper.MakeRandomFoodItem(world);
         this.Things.splice(index, 1, replacementThing);
         this.Things.push();
+    }
+
+    GetOtherThings(thing: Thing): Thing[] {
+        var index = this.Things.indexOf(thing);
+        var otherThings = this.Things.slice();
+        otherThings.splice(index, 1);
+        return otherThings;
     }
 }
