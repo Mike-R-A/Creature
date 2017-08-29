@@ -59,3 +59,17 @@ function keyTyped() {
         Helper.AddThing(world, 0, p.windowHeight, 0, 0, 255);
     }
 }
+
+function mouseClicked() {
+    for (var i = 0; i < world.Things.length; i++) {
+        var thing = world.Things[i];
+        if (thing instanceof Creature) {
+            if (p.mouseX > thing.x - thing.width / 2 && p.mouseX < thing.x + thing.width / 2 &&
+                p.mouseY > thing.y - thing.height / 2 && p.mouseY < thing.y + thing.height / 2) {
+                creatureForStats = thing;
+            }
+        }
+
+    }
+    p.mouseX
+}
