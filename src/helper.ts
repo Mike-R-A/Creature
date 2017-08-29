@@ -70,6 +70,7 @@ module Helper {
         var r = Helper.RandomIntFromInterval(0, 255);
         var g = Helper.RandomIntFromInterval(0, 255);
         var b = Helper.RandomIntFromInterval(0, 255);
+        var longTermImportanceFactor = Helper.RandomIntFromInterval(1, 20000);
         var flip = Helper.RandomIntFromInterval(0, 1);
         var smell1;
         var smell2;
@@ -80,7 +81,7 @@ module Helper {
             smell1 = 255;
             smell2 = 0;
         }
-        var creature = new Creature(world, x, y, 25, 25, [25, 37, 210], 1, [244, 229, 66], [0, 0, 0, smell1, smell2]);
+        var creature = new Creature(world, x, y, 25, 25, [244, 229, 66], [0, 0, 0, smell1, smell2], longTermImportanceFactor);
         creature.nutritionalValuePerBite = 0;
         world.Things.push(creature);
         return creature;
