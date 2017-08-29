@@ -30,6 +30,8 @@ class Thing extends Drawable {
             this._smell[i] = theSmell[i];
         }
     }
+    age: number = 0;
+    maxAge: number = 5;
     nutritionalValuePerBite: number;
     getEaten(world: World): number {
         this.wellbeing--;

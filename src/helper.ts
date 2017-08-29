@@ -70,6 +70,7 @@ module Helper {
     export function AddThing(world: World, x: number, y: number, r: number, g: number, b: number) {
         var thing = Helper.MakeRandomFoodItem(world);
         var diameter = RandomIntFromInterval(10, 100);
+        thing.maxAge = Helper.RandomIntFromInterval(1, 50) / 2;
         thing.x = x;
         thing.y = y;
         thing.stroke = [r, g, b];
@@ -83,8 +84,8 @@ module Helper {
         var g = Helper.RandomIntFromInterval(0, 255);
         var b = Helper.RandomIntFromInterval(0, 255);
         var longTermImportanceFactor = Helper.RandomIntFromInterval(1, 20000);
-        var minMemoryTime = Helper.RandomIntFromInterval(20, 20000);
-        var maxMemoryTime = Helper.RandomIntFromInterval(20, 20000);
+        var minMemoryTime = Helper.RandomIntFromInterval(1, 2000);
+        var maxMemoryTime = Helper.RandomIntFromInterval(minMemoryTime, 20000);
         var flip = Helper.RandomIntFromInterval(0, 1);
         var smell1;
         var smell2;
@@ -117,6 +118,13 @@ module Helper {
         GraphGoodness(world.goodness);
     }
     export function CreatureStats(creature: Creature) {
+        p.stroke([0, 0, 0]);
+        p.fill([0, 0, 0]);
+        p.text("Stats for creature " + creature.label, 150, 10, 500, 50);
+        p.text("longTermImportance: " + creature.longTermImportanceFactor.toString(), 150, 30, 500, 60);
+        p.text("minMemoryTime: " + creature.minMemoryTime.toString(), 150, 50, 500, 70);
+        p.text("maxMemoryTime: " + creature.maxMemoryTime.toString(), 150, 70, 500, 80);
+        p.text("score: " + creature.score.toString(), 150, 90, 500, 80);
         GraphAssociations(creature.associations);
         GraphDesireForSmell(creature.desireForSmell);
         GraphSmell(creature.whatICanSmell);

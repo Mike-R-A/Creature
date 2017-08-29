@@ -15,6 +15,7 @@ var creatureForStats: Creature;
 for (var i = 0; i < world.noOfCreatures; i++) {
     var creature = Helper.MakeARandomCreature();
     creature.label = i.toString();
+    creature.wellbeing = 100;
     if (i == 0) {
         creatureForStats = creature;
         creature.fill = [244, 229, 255];
@@ -30,11 +31,26 @@ var thingPathLength = 20;
 function draw() {
     world.draw();
     Helper.MoveThingsOnRandomPaths(world, thingPathLength);
-    world.Things.forEach(c => {
-        if (c instanceof Creature) {
+    var scoreHeight = 0;
+    world.Things.forEach(t => {
+        if (t instanceof Creature) {
+            var c = t;
             c.LiveTheNextMoment(world);
             c.wellbeing = c.wellbeing - 0.01;
+            if (Math.floor(c.wellbeing) == Math.floor(c.idealWellbeing)) {
+                c.score++;
+            }
+            p.stroke(0);
+            p.fill(0);
+            p.text("creature " + c.label + ":", p.windowWidth - 200, scoreHeight * 10 + 10, p.windowWidth, scoreHeight * 20 + 20);
+            p.text(c.score.toString(), p.windowWidth - 100, scoreHeight * 10 + 10, p.windowWidth, scoreHeight * 20 + 20);
+            scoreHeight = scoreHeight + 2;
+        } else {
+            if (t.age >= t.maxAge) {
+                world.RemoveAndReplaceThing(t);
+            }
         }
+        t.age += 1 / 1000;
     });
 
     Helper.WorldStats(world);
