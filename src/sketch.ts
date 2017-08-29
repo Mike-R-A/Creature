@@ -14,6 +14,7 @@ world.Things = Helper.MakeNoOfFoodItems(10, world);
 var creatureForStats: Creature;
 for (var i = 0; i < world.noOfCreatures; i++) {
     var creature = Helper.MakeARandomCreature();
+    creature.label = i.toString();
     if (i == 0) {
         creatureForStats = creature;
         creature.fill = [244, 229, 255];
