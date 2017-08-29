@@ -1,5 +1,10 @@
 class World {
     constructor() {
+        this.GenerateGoodnessValues();
+    }
+
+    GenerateGoodnessValues() {
+        this.goodness = [];
         for (var i = 0; i < this.NoOfSmellTypes; i++) {
             if (i < 3) {
                 this.goodness.push(Helper.RandomIntFromInterval(-2, 2))
@@ -16,6 +21,7 @@ class World {
             this.goodness[choice] = Helper.RandomIntFromInterval(-2, -1);
         }
     }
+
     Things: Thing[];
     noOfCreatures: number = 1;
     maxFoodItems = 50;

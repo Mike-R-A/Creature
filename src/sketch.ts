@@ -24,7 +24,7 @@ for (var i = 0; i < world.noOfCreatures; i++) {
 
 var isFirstTime = true;
 
-var aThingDiesInterval;
+var refreshGoodnessInterval;
 
 var thingPathLength = 20;
 
@@ -56,13 +56,12 @@ function draw() {
     Helper.WorldStats(world);
     Helper.CreatureStats(creatureForStats);
     if (isFirstTime) {
-        aThingDiesInterval = setInterval(() => {
-            var rand = Helper.RandomIntFromInterval(0, world.Things.length - 1);
-            var index = world.Things.indexOf(world.Things[rand]);
-            if (!(world.Things[index] instanceof Creature)) {
-                world.RemoveAndReplaceThing(world.Things[index]);
+        refreshGoodnessInterval = setInterval(() => {
+            var rand = Helper.RandomIntFromInterval(1, 280);
+            if (rand == 1) {
+                world.GenerateGoodnessValues();
             }
-        }, 20000);
+        }, 1000);
         isFirstTime = false;
     }
 }
