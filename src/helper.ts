@@ -205,6 +205,9 @@ module Helper {
         var child = new Creature(world, x, y, width, height, fill, smell, longTermImportanceFactor, minMemoryTime, memoryTimeSpread);
         return child;
     }
+    export function GetAllCreatures(world: World){
+        return world.Things.filter(t => t instanceof Creature);
+    }
     export function GraphDesireForSmell(desireForSmell: number[]) {
         Graph(desireForSmell,
             [[255, 0, 0], [0, 255, 0], [0, 0, 255]],
