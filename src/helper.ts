@@ -41,24 +41,25 @@ module Helper {
         var rand = RandomIntFromInterval(-1, 10);
         if (rand > 0) {
             var colourChoice = Helper.RandomIntFromInterval(0, 2);
+            var vicinitySpread = 20;
             switch (colourChoice) {
                 case 0:
                     fillG = 0;
                     fillB = 0;
-                    x = Helper.RandomIntFromInterval(world.redVicinityX - 50, world.redVicinityX + 50);
-                    y = Helper.RandomIntFromInterval(world.redVicinityY - 50, world.redVicinityY + 50);
+                    x = Helper.RandomIntFromInterval(world.redVicinityX - vicinitySpread, world.redVicinityX + vicinitySpread);
+                    y = Helper.RandomIntFromInterval(world.redVicinityY - vicinitySpread, world.redVicinityY + vicinitySpread);
                     break;
                 case 1:
                     fillB = 0;
                     fillR = 0;
-                    x = Helper.RandomIntFromInterval(world.greenVicinityX - 50, world.greenVicinityX + 50);
-                    y = Helper.RandomIntFromInterval(world.greenVicinityY - 50, world.greenVicinityY + 50);
+                    x = Helper.RandomIntFromInterval(world.greenVicinityX - vicinitySpread, world.greenVicinityX + vicinitySpread);
+                    y = Helper.RandomIntFromInterval(world.greenVicinityY - vicinitySpread, world.greenVicinityY + vicinitySpread);
                     break;
                 case 2:
                     fillR = 0;
                     fillG = 0;
-                    x = Helper.RandomIntFromInterval(world.blueVicinityX - 50, world.blueVicinityX + 50);
-                    y = Helper.RandomIntFromInterval(world.blueVicinityY - 50, world.blueVicinityY + 50);
+                    x = Helper.RandomIntFromInterval(world.blueVicinityX - vicinitySpread, world.blueVicinityX + vicinitySpread);
+                    y = Helper.RandomIntFromInterval(world.blueVicinityY - vicinitySpread, world.blueVicinityY + vicinitySpread);
                     break;
             }
         }
