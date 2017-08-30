@@ -205,8 +205,19 @@ module Helper {
         var child = new Creature(world, x, y, width, height, fill, smell, longTermImportanceFactor, minMemoryTime, memoryTimeSpread);
         return child;
     }
-    export function GetAllCreatures(world: World){
-        return world.Things.filter(t => t instanceof Creature);
+    export function GetAllCreatures(world: World):Creature[]{
+        return <Creature[]>world.Things.filter(t => t instanceof Creature);
+    }
+    export function GetBestTwoCreatures(world: World):Creature[]{
+        var creatures = <Creature[]>Helper.GetAllCreatures(world);
+        creatures.sort((a,b)=>{
+            return b.score - a.score;
+        });
+        return [creatures[0], creatures[1]];
+    }
+    export function BreedTwoBestCreatures(world: World): Creature{
+        var creatures = Helper.GetBestTwoCreatures(world);
+        return CreatureReproduction(world, creatures[0], creatures[1]);
     }
     export function GraphDesireForSmell(desireForSmell: number[]) {
         Graph(desireForSmell,
