@@ -1,5 +1,10 @@
 class World {
     constructor() {
+        this.GenerateGoodnessValues();
+    }
+
+    GenerateGoodnessValues() {
+        this.goodness = [];
         for (var i = 0; i < this.NoOfSmellTypes; i++) {
             if (i < 3) {
                 this.goodness.push(Helper.RandomIntFromInterval(-2, 2))
@@ -16,9 +21,19 @@ class World {
             this.goodness[choice] = Helper.RandomIntFromInterval(-2, -1);
         }
     }
+
     Things: Thing[];
+    noOfCreatures: number = 1;
+    maxFoodItems = 50;
     NoOfSmellTypes = 3;
     goodness: number[] = [];
+    redVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
+    redVicinityY = Helper.RandomIntFromInterval(0, p.windowHeight);
+    greenVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
+    greenVicinityY = Helper.RandomIntFromInterval(0, p.windowHeight);
+    blueVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
+    blueVicinityY = Helper.RandomIntFromInterval(0, p.windowHeight);
+
     draw() {
         p.background([176, 224, 255]);
     }
@@ -53,9 +68,20 @@ class World {
 
     RemoveAndReplaceThing(thing: Thing) {
         var index = this.Things.indexOf(thing);
-        var replacementThing = Helper.MakeRandomFoodItem(world);
-        this.Things.splice(index, 1, replacementThing);
-        this.Things.push();
+        this.Things.splice(index, 1);
+        var noOfFoodItemsLeft = world.Things.length - world.noOfCreatures;
+        if (noOfFoodItemsLeft == 0) {
+            for (var i = 0; i < Helper.RandomIntFromInterval(1, 20); i++) {
+                var replacementThing = Helper.MakeRandomFoodItem(world);
+                this.Things.push(replacementThing);
+            }
+        } else if (noOfFoodItemsLeft < this.maxFoodItems / 2) {
+            for (var i = 0; i < Helper.RandomIntFromInterval(0, this.maxFoodItems / 2); i++) {
+                var replacementThing = Helper.MakeRandomFoodItem(world);
+                this.Things.push(replacementThing);
+            }
+        }
+
     }
 
     GetOtherThings(thing: Thing): Thing[] {

@@ -9,30 +9,57 @@ module Helper {
     }
 
     export function MakeRandomFoodItem(world: World): Thing {
-        var x = RandomIntFromInterval(0, p.windowWidth);
-        var y = RandomIntFromInterval(0, p.windowHeight);
-        var diameter = RandomIntFromInterval(10, 100);
+        var randomSide = Helper.RandomIntFromInterval(1, 4);
+        var x: number;
+        var y: number;
+        switch (randomSide) {
+            case 1:
+                x = 0;
+                y = Helper.RandomIntFromInterval(0, p.windowHeight);
+                break;
+            case 2:
+                x = Helper.RandomIntFromInterval(0, p.windowWidth);
+                y = 0;
+                break;
+            case 3:
+                x = Helper.RandomIntFromInterval(0, p.windowWidth);
+                y = p.windowHeight;
+                break;
+            case 4:
+                x = p.windowWidth;
+                y = Helper.RandomIntFromInterval(0, p.windowHeight);
+                break;
+        }
+
+        var diameter = RandomIntFromInterval(10, 50);
         var strokeR = RandomIntFromInterval(0, 255);
         var strokeG = RandomIntFromInterval(0, 255);
         var strokeB = RandomIntFromInterval(0, 255);
         var fillR = RandomIntFromInterval(0, 255);
         var fillG = RandomIntFromInterval(0, 255);
         var fillB = RandomIntFromInterval(0, 255);
-        var rand = RandomIntFromInterval(-1, 20);
+        var rand = RandomIntFromInterval(-1, 10);
         if (rand > 0) {
             var colourChoice = Helper.RandomIntFromInterval(0, 2);
+            var vicinitySpread = 20;
             switch (colourChoice) {
                 case 0:
                     fillG = 0;
                     fillB = 0;
+                    x = Helper.RandomIntFromInterval(world.redVicinityX - vicinitySpread, world.redVicinityX + vicinitySpread);
+                    y = Helper.RandomIntFromInterval(world.redVicinityY - vicinitySpread, world.redVicinityY + vicinitySpread);
                     break;
                 case 1:
                     fillB = 0;
                     fillR = 0;
+                    x = Helper.RandomIntFromInterval(world.greenVicinityX - vicinitySpread, world.greenVicinityX + vicinitySpread);
+                    y = Helper.RandomIntFromInterval(world.greenVicinityY - vicinitySpread, world.greenVicinityY + vicinitySpread);
                     break;
                 case 2:
                     fillR = 0;
                     fillG = 0;
+                    x = Helper.RandomIntFromInterval(world.blueVicinityX - vicinitySpread, world.blueVicinityX + vicinitySpread);
+                    y = Helper.RandomIntFromInterval(world.blueVicinityY - vicinitySpread, world.blueVicinityY + vicinitySpread);
                     break;
             }
         }
@@ -47,21 +74,22 @@ module Helper {
         thing.nutritionalValuePerBite = (fillR * world.goodness[0] + fillG * world.goodness[1] + fillB * world.goodness[2]) / totalFill;
         return thing;
     }
+    export function GenerateNewVicinities(world: World) {
+        world.redVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
+        world.redVicinityY = Helper.RandomIntFromInterval(0, p.windowHeight);
+        world.greenVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
+        world.greenVicinityY = Helper.RandomIntFromInterval(0, p.windowHeight);
+        world.blueVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
+        world.blueVicinityY = Helper.RandomIntFromInterval(0, p.windowHeight);
+    }
     export function AddThing(world: World, x: number, y: number, r: number, g: number, b: number) {
+        var thing = Helper.MakeRandomFoodItem(world);
         var diameter = RandomIntFromInterval(10, 100);
-        var strokeR = r;
-        var strokeG = g;
-        var strokeB = b;
-        var fillR = r;
-        var fillG = g;
-        var fillB = b;
-        var thing = new Thing(world, x, y, diameter, diameter, [strokeR, strokeG, strokeB],
-            1, [fillR, fillG, fillB], [fillR, fillG, fillB]);
-        var totalFill = fillR + fillG + fillB;
-        if (totalFill == 0) {
-            totalFill = 1;
-        }
-        thing.nutritionalValuePerBite = (fillR * world.goodness[0] + fillG * world.goodness[1] + fillB * world.goodness[2]) / totalFill;
+        thing.maxAge = Helper.RandomIntFromInterval(1, 100) / 2;
+        thing.x = x;
+        thing.y = y;
+        thing.stroke = [r, g, b];
+        thing.fill = [r, g, b];
         world.Things.push(thing);
     }
     export function MakeARandomCreature() {
@@ -71,8 +99,13 @@ module Helper {
         var g = Helper.RandomIntFromInterval(0, 255);
         var b = Helper.RandomIntFromInterval(0, 255);
         var longTermImportanceFactor = Helper.RandomIntFromInterval(1, 20000);
+<<<<<<< HEAD
         var minMemoryTime = Helper.RandomIntFromInterval(20, 20000);
         var memoryTimeSpread = Helper.RandomIntFromInterval(1, 20000);
+=======
+        var minMemoryTime = Helper.RandomIntFromInterval(1, 2000);
+        var maxMemoryTime = Helper.RandomIntFromInterval(minMemoryTime, 20000);
+>>>>>>> 87a58643646f4ac9771c6d1f423e15c78c92aebd
         var flip = Helper.RandomIntFromInterval(0, 1);
         var smell1;
         var smell2;
@@ -83,7 +116,12 @@ module Helper {
             smell1 = 255;
             smell2 = 0;
         }
+<<<<<<< HEAD
         var creature = new Creature(world, x, y, 25, 25, [244, 229, 66], [0, 0, 0, smell1, smell2], longTermImportanceFactor, minMemoryTime, memoryTimeSpread);
+=======
+        var creature = new Creature(world, x, y, 25, 25, [244, 229, 66], [0, 0, 0, smell1, smell2], longTermImportanceFactor, minMemoryTime, maxMemoryTime);
+        creature.label = "creature";
+>>>>>>> 87a58643646f4ac9771c6d1f423e15c78c92aebd
         creature.nutritionalValuePerBite = 0;
         world.Things.push(creature);
         return creature;
@@ -104,6 +142,13 @@ module Helper {
         GraphGoodness(world.goodness);
     }
     export function CreatureStats(creature: Creature) {
+        p.stroke([0, 0, 0]);
+        p.fill([0, 0, 0]);
+        p.text("Stats for creature " + creature.label, 150, 10, 500, 50);
+        p.text("longTermImportance: " + creature.longTermImportanceFactor.toString(), 150, 30, 500, 60);
+        p.text("minMemoryTime: " + creature.minMemoryTime.toString(), 150, 50, 500, 70);
+        p.text("maxMemoryTime: " + creature.maxMemoryTime.toString(), 150, 70, 500, 80);
+        p.text("score: " + creature.score.toString(), 150, 90, 500, 80);
         GraphAssociations(creature.associations);
         GraphDesireForSmell(creature.desireForSmell);
         GraphSmell(creature.whatICanSmell);
@@ -145,7 +190,7 @@ module Helper {
             [[255, 0, 0], [0, 255, 0], [0, 0, 255]],
             100,
             20,
-            210,
+            310,
             100,
             "Association with Nutritional Value"
         );
@@ -155,7 +200,7 @@ module Helper {
             [[255, 0, 0], [0, 255, 0], [0, 0, 255]],
             100,
             20,
-            410,
+            610,
             100,
             "Current Thoughts"
         );
@@ -165,7 +210,7 @@ module Helper {
             [[255, 0, 0], [0, 255, 0], [0, 0, 255]],
             100,
             20,
-            610,
+            910,
             100,
             "Current Smell"
         );

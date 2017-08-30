@@ -18,6 +18,7 @@ class Drawable {
     fill: number[];
     width: number;
     height: number;
+    label: string;
     draw() {
         if (this.x < Math.abs(this.width / 2)) {
             this.x = Math.abs(this.width / 2);
@@ -35,5 +36,11 @@ class Drawable {
         p.strokeWeight(this.strokeWeight);
         p.fill(this.fill);
         p.ellipse(this.x, this.y, this.width, this.height);
+        if (this.label) {
+            var textX = this.x;
+            var textY = this.y;
+            p.fill(0);
+            p.text(this.label, textX, textY, textX + 10, textY + 10);
+        }
     }
 }

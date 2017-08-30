@@ -1,6 +1,10 @@
 class Creature extends Thing {
     constructor(world: World, x: number, y: number, width: number, height: number, fill: number[], smell: number[], longTermImportanceFactor: number,
+<<<<<<< HEAD
     minMemoryTime: number, memoryTimeSpread: number) {
+=======
+        minMemoryTime: number, maxMemoryTime: number) {
+>>>>>>> 87a58643646f4ac9771c6d1f423e15c78c92aebd
         super(world, x, y, width, height, fill, 1, fill, smell);
         this.longTermImportanceFactor = longTermImportanceFactor;
         this.minMemoryTime = minMemoryTime;
@@ -27,6 +31,7 @@ class Creature extends Thing {
     smellLeft: number[];
     smellRight: number[];
     desireForSmell: number[] = [];
+    score: number = 0;
     sniff(world: World) {
         this.whatICanSmell = world.GetSmellAtPosition(this.x, this.y, this);
         this.smellUp = world.GetSmellAtPosition(this.x, this.y + 1, this);
@@ -51,8 +56,13 @@ class Creature extends Thing {
                 this.associations[i] += averageSmell[i] * changeInWellbeing / this.longTermImportanceFactor;
             }
             this.NormaliseAssociations();
+<<<<<<< HEAD
         //}, Helper.RandomIntFromInterval(50, 3000));
         }, Helper.RandomIntFromInterval(this.minMemoryTime, this.minMemoryTime + this.memoryTimeSpread));
+=======
+            //}, Helper.RandomIntFromInterval(50, 3000));
+        }, Helper.RandomIntFromInterval(this.minMemoryTime, this.maxMemoryTime));
+>>>>>>> 87a58643646f4ac9771c6d1f423e15c78c92aebd
     }
 
     NormaliseAssociations() {
