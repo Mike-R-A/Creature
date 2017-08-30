@@ -9,12 +9,7 @@ function windowResized() {
 var world = new World();
 world.NoOfSmellTypes = 5;
 world.noOfCreatures = 6;
-world.redVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
-world.redVicinityY = Helper.RandomIntFromInterval(0, p.windowHeight);
-world.greenVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
-world.greenVicinityY = Helper.RandomIntFromInterval(0, p.windowHeight);
-world.blueVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
-world.blueVicinityY = Helper.RandomIntFromInterval(0, p.windowHeight);
+
 var creatures: Creature[] = [];
 world.Things = Helper.MakeNoOfFoodItems(10, world);
 var creatureForStats: Creature;
@@ -24,13 +19,13 @@ for (var i = 0; i < world.noOfCreatures; i++) {
     creature.wellbeing = 100;
     if (i == 0) {
         creatureForStats = creature;
-        creature.fill = [244, 229, 255];
     }
 }
 
 var isFirstTime = true;
 
 var refreshGoodnessInterval;
+var switchVicinitiesInterval;
 
 var thingPathLength = 20;
 
@@ -66,6 +61,12 @@ function draw() {
             var rand = Helper.RandomIntFromInterval(1, 280);
             if (rand == 1) {
                 world.GenerateGoodnessValues();
+            }
+        }, 1000);
+        switchVicinitiesInterval = setInterval(() => {
+            var rand = Helper.RandomIntFromInterval(1, 60);
+            if (rand == 1) {
+                Helper.GenerateNewVicinities(world);
             }
         }, 1000);
         isFirstTime = false;

@@ -74,10 +74,18 @@ module Helper {
         thing.nutritionalValuePerBite = (fillR * world.goodness[0] + fillG * world.goodness[1] + fillB * world.goodness[2]) / totalFill;
         return thing;
     }
+    export function GenerateNewVicinities(world: World) {
+        world.redVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
+        world.redVicinityY = Helper.RandomIntFromInterval(0, p.windowHeight);
+        world.greenVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
+        world.greenVicinityY = Helper.RandomIntFromInterval(0, p.windowHeight);
+        world.blueVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
+        world.blueVicinityY = Helper.RandomIntFromInterval(0, p.windowHeight);
+    }
     export function AddThing(world: World, x: number, y: number, r: number, g: number, b: number) {
         var thing = Helper.MakeRandomFoodItem(world);
         var diameter = RandomIntFromInterval(10, 100);
-        thing.maxAge = Helper.RandomIntFromInterval(1, 50) / 2;
+        thing.maxAge = Helper.RandomIntFromInterval(1, 100) / 2;
         thing.x = x;
         thing.y = y;
         thing.stroke = [r, g, b];
