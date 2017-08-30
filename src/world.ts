@@ -27,12 +27,12 @@ class World {
     maxFoodItems = 50;
     NoOfSmellTypes = 3;
     goodness: number[] = [];
-    redVicinityX = 0;
-    redVicinityY = 0;
-    greenVicinityX = 0;
-    greenVicinityY = 0;
-    blueVicinityX = 0;
-    blueVicinityY = 0;
+    redVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
+    redVicinityY = Helper.RandomIntFromInterval(0, p.windowHeight);
+    greenVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
+    greenVicinityY = Helper.RandomIntFromInterval(0, p.windowHeight);
+    blueVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
+    blueVicinityY = Helper.RandomIntFromInterval(0, p.windowHeight);
 
     draw() {
         p.background([176, 224, 255]);

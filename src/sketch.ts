@@ -37,7 +37,7 @@ function draw() {
         if (t instanceof Creature) {
             var c = t;
             c.LiveTheNextMoment(world);
-            c.wellbeing = c.wellbeing - 0.01;
+            c.wellbeing = c.wellbeing - 0.005;
             if (Math.floor(c.wellbeing) == Math.floor(c.idealWellbeing)) {
                 c.score++;
             }
