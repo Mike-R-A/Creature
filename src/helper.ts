@@ -137,7 +137,7 @@ module Helper {
         p.text("Stats for creature " + creature.label, 150, 10, 500, 50);
         p.text("longTermImportance: " + creature.longTermImportanceFactor.toString(), 150, 30, 500, 60);
         p.text("minMemoryTime: " + creature.minMemoryTime.toString(), 150, 50, 500, 70);
-        p.text("maxMemoryTime: " + creature.memoryTimeSpread.toString(), 150, 70, 500, 80);
+        p.text("memoryTimeSpread: " + creature.memoryTimeSpread.toString(), 150, 70, 500, 80);
         p.text("score: " + creature.score.toString(), 150, 90, 500, 80);
         GraphAssociations(creature.associations);
         GraphDesireForSmell(creature.desireForSmell);
