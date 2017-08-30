@@ -27,6 +27,13 @@ class World {
     maxFoodItems = 50;
     NoOfSmellTypes = 3;
     goodness: number[] = [];
+    redVicinityX = 0;
+    redVicinityY = 0;
+    greenVicinityX = 0;
+    greenVicinityY = 0;
+    blueVicinityX = 0;
+    blueVicinityY = 0;
+
     draw() {
         p.background([176, 224, 255]);
     }

@@ -9,6 +9,12 @@ function windowResized() {
 var world = new World();
 world.NoOfSmellTypes = 5;
 world.noOfCreatures = 6;
+world.redVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
+world.redVicinityY = Helper.RandomIntFromInterval(0, p.windowHeight);
+world.greenVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
+world.greenVicinityY = Helper.RandomIntFromInterval(0, p.windowHeight);
+world.blueVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
+world.blueVicinityY = Helper.RandomIntFromInterval(0, p.windowHeight);
 var creatures: Creature[] = [];
 world.Things = Helper.MakeNoOfFoodItems(10, world);
 var creatureForStats: Creature;

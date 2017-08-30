@@ -38,21 +38,27 @@ module Helper {
         var fillR = RandomIntFromInterval(0, 255);
         var fillG = RandomIntFromInterval(0, 255);
         var fillB = RandomIntFromInterval(0, 255);
-        var rand = RandomIntFromInterval(-1, 20);
+        var rand = RandomIntFromInterval(-1, 10);
         if (rand > 0) {
             var colourChoice = Helper.RandomIntFromInterval(0, 2);
             switch (colourChoice) {
                 case 0:
                     fillG = 0;
                     fillB = 0;
+                    x = Helper.RandomIntFromInterval(world.redVicinityX - 50, world.redVicinityX + 50);
+                    y = Helper.RandomIntFromInterval(world.redVicinityY - 50, world.redVicinityY + 50);
                     break;
                 case 1:
                     fillB = 0;
                     fillR = 0;
+                    x = Helper.RandomIntFromInterval(world.greenVicinityX - 50, world.greenVicinityX + 50);
+                    y = Helper.RandomIntFromInterval(world.greenVicinityY - 50, world.greenVicinityY + 50);
                     break;
                 case 2:
                     fillR = 0;
                     fillG = 0;
+                    x = Helper.RandomIntFromInterval(world.blueVicinityX - 50, world.blueVicinityX + 50);
+                    y = Helper.RandomIntFromInterval(world.blueVicinityY - 50, world.blueVicinityY + 50);
                     break;
             }
         }
