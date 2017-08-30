@@ -185,6 +185,26 @@ module Helper {
             "Association with Nutritional Value"
         );
     }
+    export function CreatureReproduction(world: World, creature1: Creature, creature2:Creature): Creature{
+        var x = (creature1.x + creature2.x)/2;
+        var y = (creature1.y + creature2.y)/2;
+        var rand = Helper.RandomIntFromInterval(1,2);
+        var width = rand == 1 ? creature1.width : creature2.width;
+        rand = Helper.RandomIntFromInterval(1,2);
+        var height = rand == 1 ? creature1.height : creature2.height;
+        rand = Helper.RandomIntFromInterval(1,2);
+        var fill = rand == 1 ? creature1.fill : creature2.fill;
+        rand = Helper.RandomIntFromInterval(1,2);
+        var smell = rand == 1 ? creature1.smell : creature2.smell;
+        rand = Helper.RandomIntFromInterval(1,2);
+        var longTermImportanceFactor = rand == 1 ? creature1.longTermImportanceFactor : creature2.longTermImportanceFactor;
+        rand = Helper.RandomIntFromInterval(1,2);
+        var minMemoryTime = rand == 1 ? creature1.minMemoryTime : creature2.minMemoryTime;
+        rand = Helper.RandomIntFromInterval(1,2);
+        var memoryTimeSpread = rand == 1 ? creature1.memoryTimeSpread : creature2.memoryTimeSpread;
+        var child = new Creature(world, x, y, width, height, fill, smell, longTermImportanceFactor, minMemoryTime, memoryTimeSpread);
+        return child;
+    }
     export function GraphDesireForSmell(desireForSmell: number[]) {
         Graph(desireForSmell,
             [[255, 0, 0], [0, 255, 0], [0, 0, 255]],
