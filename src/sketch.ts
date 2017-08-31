@@ -7,23 +7,16 @@ function windowResized() {
 }
 
 var world = new World();
-world.NoOfSmellTypes = 5;
-world.noOfCreatures = 10;
+world.noOfSmellTypes = 5;
 
-var creatures: Creature[] = [];
-world.Things = Helper.MakeNoOfFoodItems(Helper.RandomIntFromInterval(1, world.noOfCreatures * world.maxFoodItemsPerCreature), world);
+Helper.MakeNoOfCreatures(10, world);
+Helper.MakeNoOfFoodItems(Helper.RandomIntFromInterval(1, world.noOfCreatures * world.maxFoodItemsPerCreature), world);
+
 var creatureForStats: Creature;
-for (var i = 0; i < world.noOfCreatures; i++) {
-    var creature = Helper.MakeARandomCreature();
-    creature.label = i.toString();
-    if (i == 0) {
-        creatureForStats = creature;
-    }
-}
+creatureForStats = Helper.GetAllCreatures(world)[0];
 
 var isFirstTime = true;
 
-var refreshGoodnessInterval;
 var switchVicinitiesInterval;
 
 var thingPathLength = 20;
@@ -34,19 +27,15 @@ function draw() {
     var scoreHeight = 0;
     world.Things.forEach(t => {
         if (t instanceof Creature) {
-            var c = t;
-            c.LiveTheNextMoment(world);
-            c.wellbeing = c.wellbeing - 0.005;
-            if (Math.floor(c.wellbeing) >= Math.floor(c.idealWellbeing)) {
-                c.score++;
+            var creature = t;
+            creature.LiveTheNextMoment(world);
+            if (Math.floor(creature.wellbeing) >= Math.floor(creature.idealWellbeing)) {
+                creature.score++;
             }
-            p.stroke(0);
-            p.fill(0);
-            p.text("creature " + c.label + ":", p.windowWidth - 200, scoreHeight * 10 + 10, p.windowWidth, scoreHeight * 20 + 20);
-            p.text(c.score.toString(), p.windowWidth - 100, scoreHeight * 10 + 10, p.windowWidth, scoreHeight * 20 + 20);
+            Helper.WriteOutCreatureScore(creature, p.windowWidth - 200, scoreHeight * 10 + 10);
             scoreHeight = scoreHeight + 2;
-            if (c.wellbeing < 0) {
-                var index = world.Things.indexOf(c);
+            if (creature.wellbeing < 0) {
+                var index = world.Things.indexOf(creature);
                 world.Things.splice(index, 1);
                 if (Helper.GetAllCreatures(world).length <= 2) {
                     for (var i = 0; i < Helper.RandomIntFromInterval(1, world.noOfCreatures - 2); i++) {
@@ -65,12 +54,6 @@ function draw() {
     Helper.WorldStats(world);
     Helper.CreatureStats(creatureForStats);
     if (isFirstTime) {
-        // refreshGoodnessInterval = setInterval(() => {
-        //     var rand = Helper.RandomIntFromInterval(1, 280);
-        //     if (rand == 1) {
-        //         world.GenerateGoodnessValues();
-        //     }
-        // }, 1000);
         switchVicinitiesInterval = setInterval(() => {
             var rand = Helper.RandomIntFromInterval(1, 60);
             if (rand == 1) {

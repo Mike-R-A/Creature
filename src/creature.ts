@@ -5,7 +5,7 @@ class Creature extends Thing {
         this.longTermImportanceFactor = longTermImportanceFactor;
         this.minMemoryTime = minMemoryTime;
         this.memoryTimeSpread = memoryTimeSpread;
-        for (var i = 0; i < world.NoOfSmellTypes; i++) {
+        for (var i = 0; i < world.noOfSmellTypes; i++) {
             this.associations.push(1);
             this.desireForSmell.push(1);
         }
@@ -104,7 +104,7 @@ class Creature extends Thing {
         var leftDesireArray = this.GetDesireArray(this.smellLeft);
         var rightDesireArray = this.GetDesireArray(this.smellRight);
         this.desireForSmell = [];
-        for (var i = 0; i < world.NoOfSmellTypes; i++) {
+        for (var i = 0; i < world.noOfSmellTypes; i++) {
             this.desireForSmell.push(upDesireArray[i] + downDesireArray[i] + leftDesireArray[i] + rightDesireArray[i]);
         }
 
@@ -138,6 +138,7 @@ class Creature extends Thing {
     }
 
     LiveTheNextMoment(world: World) {
+        this.wellbeing = this.wellbeing - 0.005;
         this.sniff(world);
         this.InteractWithThingsInReach(world);
         this.DecideWhereToMove();

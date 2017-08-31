@@ -2,7 +2,7 @@ class Thing extends Drawable {
     constructor(world: World, x: number, y: number, width: number, height: number,
         stroke: number[], strokeWeight: number, fill: number[], smell: number[]) {
         super(x, y, width, height, stroke, strokeWeight, fill);
-        for (var i = 0; i < world.NoOfSmellTypes; i++) {
+        for (var i = 0; i < world.noOfSmellTypes; i++) {
             this._smell.push(0);
         }
         this.smell = smell;

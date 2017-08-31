@@ -5,7 +5,7 @@ class World {
 
     GenerateGoodnessValues() {
         this.goodness = [];
-        for (var i = 0; i < this.NoOfSmellTypes; i++) {
+        for (var i = 0; i < this.noOfSmellTypes; i++) {
             if (i < 3) {
                 this.goodness.push(Helper.RandomIntFromInterval(-2, 2) / 10)
             } else {
@@ -22,10 +22,10 @@ class World {
         }
     }
 
-    Things: Thing[];
+    Things: Thing[] = [];
     noOfCreatures: number = 1;
     maxFoodItemsPerCreature = 10;
-    NoOfSmellTypes = 3;
+    noOfSmellTypes = 3;
     goodness: number[] = [];
     redVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
     redVicinityY = Helper.RandomIntFromInterval(0, p.windowHeight);
@@ -39,7 +39,7 @@ class World {
     }
     GetSmellAtPosition(x, y, creature: Creature): number[] {
         var smellAtPosition: number[] = [];
-        for (var i = 0; i < this.NoOfSmellTypes; i++) {
+        for (var i = 0; i < this.noOfSmellTypes; i++) {
             smellAtPosition.push(0);
             var index = this.Things.indexOf(creature);
             var otherThings = this.Things.slice();
@@ -72,13 +72,11 @@ class World {
         var noOfFoodItemsLeft = world.Things.length - world.noOfCreatures;
         if (noOfFoodItemsLeft == 0) {
             for (var i = 0; i < Helper.RandomIntFromInterval(1, this.noOfCreatures * this.maxFoodItemsPerCreature); i++) {
-                var replacementThing = Helper.MakeRandomFoodItem(world);
-                this.Things.push(replacementThing);
+                Helper.MakeRandomFoodItem(world);
             }
         } else if (noOfFoodItemsLeft < this.maxFoodItemsPerCreature * this.noOfCreatures / 2) {
             for (var i = 0; i < Helper.RandomIntFromInterval(0, this.maxFoodItemsPerCreature / 2); i++) {
-                var replacementThing = Helper.MakeRandomFoodItem(world);
-                this.Things.push(replacementThing);
+                Helper.MakeRandomFoodItem(world);
             }
         }
     }

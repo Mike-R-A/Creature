@@ -8,6 +8,17 @@ module Helper {
         return things;
     }
 
+    export function MakeNoOfCreatures(noOfCreatures: number, world: World): Creature[] {
+        var creatures: Creature[] = [];
+        for (var i = 0; i < noOfCreatures; i++) {
+            var creature = Helper.MakeARandomCreature();
+            creature.label = i.toString();
+            creatures.push(creature);
+        }
+        world.noOfCreatures = noOfCreatures;
+        return creatures;
+    }
+
     export function MakeRandomFoodItem(world: World): Thing {
         var randomSide = Helper.RandomIntFromInterval(1, 4);
         var x: number;
@@ -72,6 +83,7 @@ module Helper {
             totalFill = 1;
         }
         thing.nutritionalValuePerBite = (fillR * world.goodness[0] + fillG * world.goodness[1] + fillB * world.goodness[2]) / totalFill;
+        world.Things.push(thing);
         return thing;
     }
     export function GenerateNewVicinities(world: World) {
@@ -145,6 +157,11 @@ module Helper {
         GraphSmell(creature.whatICanSmell);
         GraphWellbeing(creature.wellbeing);
     }
+    export function WriteOutCreatureScore(creature: Creature, x: number, y: number) {
+        p.stroke(0);
+        p.fill(0);
+        p.text("creature " + creature.label + ":   " + creature.score.toString(), x, y, x + 100, y + 100);
+    }
     export function Graph(arrayToGraph: number[], barColours: number[][],
         weightFactor: number, barWidth: number, leftOffset: number, topOffset: number, title: string) {
         if (arrayToGraph) {
@@ -217,7 +234,7 @@ module Helper {
         child.minMemoryTime = rand == 1 ? creature1.minMemoryTime : creature2.minMemoryTime;
         rand = Helper.RandomIntFromInterval(1, 2);
         child.memoryTimeSpread = rand == 1 ? creature1.memoryTimeSpread : creature2.memoryTimeSpread;
-        for (var i = 0; i < world.NoOfSmellTypes; i++) {
+        for (var i = 0; i < world.noOfSmellTypes; i++) {
             child.associations[i] = (creature1.associations[i] + creature2.associations[i]) / 2;
         }
 
