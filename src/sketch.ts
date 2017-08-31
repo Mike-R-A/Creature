@@ -8,15 +8,14 @@ function windowResized() {
 
 var world = new World();
 world.NoOfSmellTypes = 5;
-world.noOfCreatures = 4;
+world.noOfCreatures = 10;
 
 var creatures: Creature[] = [];
-world.Things = Helper.MakeNoOfFoodItems(10, world);
+world.Things = Helper.MakeNoOfFoodItems(Helper.RandomIntFromInterval(1, world.noOfCreatures * world.maxFoodItemsPerCreature), world);
 var creatureForStats: Creature;
 for (var i = 0; i < world.noOfCreatures; i++) {
     var creature = Helper.MakeARandomCreature();
     creature.label = i.toString();
-    creature.wellbeing = 100;
     if (i == 0) {
         creatureForStats = creature;
     }
@@ -38,7 +37,7 @@ function draw() {
             var c = t;
             c.LiveTheNextMoment(world);
             c.wellbeing = c.wellbeing - 0.005;
-            if (Math.floor(c.wellbeing) == Math.floor(c.idealWellbeing)) {
+            if (Math.floor(c.wellbeing) >= Math.floor(c.idealWellbeing)) {
                 c.score++;
             }
             p.stroke(0);
@@ -46,6 +45,15 @@ function draw() {
             p.text("creature " + c.label + ":", p.windowWidth - 200, scoreHeight * 10 + 10, p.windowWidth, scoreHeight * 20 + 20);
             p.text(c.score.toString(), p.windowWidth - 100, scoreHeight * 10 + 10, p.windowWidth, scoreHeight * 20 + 20);
             scoreHeight = scoreHeight + 2;
+            if (c.wellbeing < 0) {
+                var index = world.Things.indexOf(c);
+                world.Things.splice(index, 1);
+                if (Helper.GetAllCreatures(world).length <= 2) {
+                    for (var i = 0; i < Helper.RandomIntFromInterval(1, world.noOfCreatures - 2); i++) {
+                        Helper.MakeARandomCreature();
+                    }
+                }
+            }
         } else {
             if (t.age >= t.maxAge) {
                 world.RemoveAndReplaceThing(t);
@@ -57,12 +65,12 @@ function draw() {
     Helper.WorldStats(world);
     Helper.CreatureStats(creatureForStats);
     if (isFirstTime) {
-        refreshGoodnessInterval = setInterval(() => {
-            var rand = Helper.RandomIntFromInterval(1, 280);
-            if (rand == 1) {
-                world.GenerateGoodnessValues();
-            }
-        }, 1000);
+        // refreshGoodnessInterval = setInterval(() => {
+        //     var rand = Helper.RandomIntFromInterval(1, 280);
+        //     if (rand == 1) {
+        //         world.GenerateGoodnessValues();
+        //     }
+        // }, 1000);
         switchVicinitiesInterval = setInterval(() => {
             var rand = Helper.RandomIntFromInterval(1, 60);
             if (rand == 1) {

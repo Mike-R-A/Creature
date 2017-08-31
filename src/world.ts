@@ -7,24 +7,24 @@ class World {
         this.goodness = [];
         for (var i = 0; i < this.NoOfSmellTypes; i++) {
             if (i < 3) {
-                this.goodness.push(Helper.RandomIntFromInterval(-2, 2))
+                this.goodness.push(Helper.RandomIntFromInterval(-2, 2) / 10)
             } else {
                 this.goodness.push(0);
             }
         }
         if (this.goodness[0] <= 0 && this.goodness[1] <= 0 && this.goodness[2] <= 0) {
             var choice = Helper.RandomIntFromInterval(0, 2);
-            this.goodness[choice] = Helper.RandomIntFromInterval(1, 2);
+            this.goodness[choice] = Helper.RandomIntFromInterval(1, 2) / 10;
         }
         if (this.goodness[0] >= 0 && this.goodness[1] >= 0 && this.goodness[2] >= 0) {
             var choice = Helper.RandomIntFromInterval(0, 2);
-            this.goodness[choice] = Helper.RandomIntFromInterval(-2, -1);
+            this.goodness[choice] = Helper.RandomIntFromInterval(-2, -1) / 10;
         }
     }
 
     Things: Thing[];
     noOfCreatures: number = 1;
-    maxFoodItems = 50;
+    maxFoodItemsPerCreature = 10;
     NoOfSmellTypes = 3;
     goodness: number[] = [];
     redVicinityX = Helper.RandomIntFromInterval(0, p.windowWidth);
@@ -71,17 +71,16 @@ class World {
         this.Things.splice(index, 1);
         var noOfFoodItemsLeft = world.Things.length - world.noOfCreatures;
         if (noOfFoodItemsLeft == 0) {
-            for (var i = 0; i < Helper.RandomIntFromInterval(1, 20); i++) {
+            for (var i = 0; i < Helper.RandomIntFromInterval(1, this.noOfCreatures * this.maxFoodItemsPerCreature); i++) {
                 var replacementThing = Helper.MakeRandomFoodItem(world);
                 this.Things.push(replacementThing);
             }
-        } else if (noOfFoodItemsLeft < this.maxFoodItems / 2) {
-            for (var i = 0; i < Helper.RandomIntFromInterval(0, this.maxFoodItems / 2); i++) {
+        } else if (noOfFoodItemsLeft < this.maxFoodItemsPerCreature * this.noOfCreatures / 2) {
+            for (var i = 0; i < Helper.RandomIntFromInterval(0, this.maxFoodItemsPerCreature / 2); i++) {
                 var replacementThing = Helper.MakeRandomFoodItem(world);
                 this.Things.push(replacementThing);
             }
         }
-
     }
 
     GetOtherThings(thing: Thing): Thing[] {

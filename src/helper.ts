@@ -99,7 +99,7 @@ module Helper {
         var g = Helper.RandomIntFromInterval(0, 255);
         var b = Helper.RandomIntFromInterval(0, 255);
         var longTermImportanceFactor = Helper.RandomIntFromInterval(1, 20000);
-        var minMemoryTime = Helper.RandomIntFromInterval(20, 20000);
+        var minMemoryTime = Helper.RandomIntFromInterval(20, 2000);
         var memoryTimeSpread = Helper.RandomIntFromInterval(1, 20000);
         var flip = Helper.RandomIntFromInterval(0, 1);
         var smell1;
@@ -113,6 +113,7 @@ module Helper {
         }
         var creature = new Creature(world, x, y, 25, 25, [244, 229, 66], [0, 0, 0, smell1, smell2], longTermImportanceFactor, minMemoryTime, memoryTimeSpread);
         creature.nutritionalValuePerBite = 0;
+        creature.label = "unnamed";
         world.Things.push(creature);
         return creature;
     }
@@ -185,37 +186,57 @@ module Helper {
             "Association with Nutritional Value"
         );
     }
-    export function CreatureReproduction(world: World, creature1: Creature, creature2:Creature): Creature{
-        var x = (creature1.x + creature2.x)/2;
-        var y = (creature1.y + creature2.y)/2;
-        var rand = Helper.RandomIntFromInterval(1,2);
-        var width = rand == 1 ? creature1.width : creature2.width;
-        rand = Helper.RandomIntFromInterval(1,2);
-        var height = rand == 1 ? creature1.height : creature2.height;
-        rand = Helper.RandomIntFromInterval(1,2);
-        var fill = rand == 1 ? creature1.fill : creature2.fill;
-        rand = Helper.RandomIntFromInterval(1,2);
-        var smell = rand == 1 ? creature1.smell : creature2.smell;
-        rand = Helper.RandomIntFromInterval(1,2);
-        var longTermImportanceFactor = rand == 1 ? creature1.longTermImportanceFactor : creature2.longTermImportanceFactor;
-        rand = Helper.RandomIntFromInterval(1,2);
-        var minMemoryTime = rand == 1 ? creature1.minMemoryTime : creature2.minMemoryTime;
-        rand = Helper.RandomIntFromInterval(1,2);
-        var memoryTimeSpread = rand == 1 ? creature1.memoryTimeSpread : creature2.memoryTimeSpread;
-        var child = new Creature(world, x, y, width, height, fill, smell, longTermImportanceFactor, minMemoryTime, memoryTimeSpread);
+    export function CreatureReproduction(world: World, creature1: Creature, creature2: Creature): Creature {
+        creature1.isFertile = false;
+        creature2.isFertile = false;
+        var child = Helper.MakeARandomCreature();
+        child.isFertile = false;
+        setTimeout(() => {
+            creature1.isFertile = true;
+            creature2.isFertile = true;
+            child.isFertile = true;
+        }, 30000);
+
+        child.x = (creature1.x + creature2.x) / 2;
+        child.y = (creature1.y + creature2.y) / 2;
+        creature1.x += creature1.width * 2;
+        creature1.y += creature1.height * 2;
+        creature2.x -= creature2.width * 2;
+        creature2.y -= creature2.height * 2;
+        var rand = Helper.RandomIntFromInterval(1, 2);
+        child.width = rand == 1 ? creature1.width : creature2.width;
+        rand = Helper.RandomIntFromInterval(1, 2);
+        child.height = rand == 1 ? creature1.height : creature2.height;
+        rand = Helper.RandomIntFromInterval(1, 2);
+        child.fill = rand == 1 ? creature1.fill : creature2.fill;
+        rand = Helper.RandomIntFromInterval(1, 2);
+        child.smell = rand == 1 ? creature1.smell : creature2.smell;
+        rand = Helper.RandomIntFromInterval(1, 2);
+        child.longTermImportanceFactor = rand == 1 ? creature1.longTermImportanceFactor : creature2.longTermImportanceFactor;
+        rand = Helper.RandomIntFromInterval(1, 2);
+        child.minMemoryTime = rand == 1 ? creature1.minMemoryTime : creature2.minMemoryTime;
+        rand = Helper.RandomIntFromInterval(1, 2);
+        child.memoryTimeSpread = rand == 1 ? creature1.memoryTimeSpread : creature2.memoryTimeSpread;
+        for (var i = 0; i < world.NoOfSmellTypes; i++) {
+            child.associations[i] = (creature1.associations[i] + creature2.associations[i]) / 2;
+        }
+
+        // var child = new Creature(world, x, y, width, height, fill, smell, longTermImportanceFactor, minMemoryTime, memoryTimeSpread);
+        child.label = creature1.label + creature2.label;
+        // world.Things.push(child);
         return child;
     }
-    export function GetAllCreatures(world: World):Creature[]{
+    export function GetAllCreatures(world: World): Creature[] {
         return <Creature[]>world.Things.filter(t => t instanceof Creature);
     }
-    export function GetBestTwoCreatures(world: World):Creature[]{
+    export function GetBestTwoCreatures(world: World): Creature[] {
         var creatures = <Creature[]>Helper.GetAllCreatures(world);
-        creatures.sort((a,b)=>{
+        creatures.sort((a, b) => {
             return b.score - a.score;
         });
         return [creatures[0], creatures[1]];
     }
-    export function BreedTwoBestCreatures(world: World): Creature{
+    export function BreedTwoBestCreatures(world: World): Creature {
         var creatures = Helper.GetBestTwoCreatures(world);
         return CreatureReproduction(world, creatures[0], creatures[1]);
     }

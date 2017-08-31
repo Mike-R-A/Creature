@@ -65,8 +65,8 @@ class Thing extends Drawable {
                 }
 
                 if (otherThing instanceof Creature || distanceToOtherThing <= (this.width + otherThing.width) / 2) {
-                    this.x = this.x - xToOther * 1.1;
-                    this.y = this.y - yToOther * 1.1;
+                    this.x = this.x - xToOther * 0.5;
+                    this.y = this.y - yToOther * 0.5;
                 } else {
                     this.x = this.x + xToOther;
                     this.y = this.y + yToOther;
