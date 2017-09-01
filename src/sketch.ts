@@ -9,7 +9,7 @@ function windowResized() {
 var world = new World();
 world.noOfSmellTypes = 5;
 
-Helper.MakeNoOfCreatures(10, world);
+Helper.MakeNoOfCreatures(5, world);
 Helper.MakeNoOfFoodItems(Helper.RandomIntFromInterval(1, world.noOfCreatures * world.maxFoodItemsPerCreature), world);
 
 var creatureForStats: Creature;

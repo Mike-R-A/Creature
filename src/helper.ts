@@ -148,11 +148,11 @@ module Helper {
         p.stroke([0, 0, 0]);
         p.fill([0, 0, 0]);
         p.text("Stats for creature " + creature.label, 150, 10, 500, 50);
-        p.text("longTermImportance: " + creature.longTermImportanceFactor.toString(), 150, 30, 500, 60);
-        p.text("minMemoryTime: " + creature.minMemoryTime.toString(), 150, 50, 500, 70);
-        p.text("memoryTimeSpread: " + creature.memoryTimeSpread.toString(), 150, 70, 500, 80);
+        p.text("longTermImportance: " + creature.smellEnergyBrainSection.longTermImportanceFactor.toString(), 150, 30, 500, 60);
+        p.text("minMemoryTime: " + creature.smellEnergyBrainSection.minMemoryTime.toString(), 150, 50, 500, 70);
+        p.text("memoryTimeSpread: " + creature.smellEnergyBrainSection.memoryTimeSpread.toString(), 150, 70, 500, 80);
         p.text("score: " + creature.score.toString(), 150, 90, 500, 80);
-        GraphAssociations(creature.associations);
+        GraphAssociations(creature.smellEnergyBrainSection.associations);
         GraphDesireForSmell(creature.desireForSmell);
         GraphSmell(creature.whatICanSmell);
         GraphWellbeing(creature.wellbeing);
@@ -229,13 +229,13 @@ module Helper {
         rand = Helper.RandomIntFromInterval(1, 2);
         child.smell = rand == 1 ? creature1.smell : creature2.smell;
         rand = Helper.RandomIntFromInterval(1, 2);
-        child.longTermImportanceFactor = rand == 1 ? creature1.longTermImportanceFactor : creature2.longTermImportanceFactor;
+        child.smellEnergyBrainSection.longTermImportanceFactor = rand == 1 ? creature1.smellEnergyBrainSection.longTermImportanceFactor : creature2.smellEnergyBrainSection.longTermImportanceFactor;
         rand = Helper.RandomIntFromInterval(1, 2);
-        child.minMemoryTime = rand == 1 ? creature1.minMemoryTime : creature2.minMemoryTime;
+        child.smellEnergyBrainSection.minMemoryTime = rand == 1 ? creature1.smellEnergyBrainSection.minMemoryTime : creature2.smellEnergyBrainSection.minMemoryTime;
         rand = Helper.RandomIntFromInterval(1, 2);
-        child.memoryTimeSpread = rand == 1 ? creature1.memoryTimeSpread : creature2.memoryTimeSpread;
+        child.smellEnergyBrainSection.memoryTimeSpread = rand == 1 ? creature1.smellEnergyBrainSection.memoryTimeSpread : creature2.smellEnergyBrainSection.memoryTimeSpread;
         for (var i = 0; i < world.noOfSmellTypes; i++) {
-            child.associations[i] = (creature1.associations[i] + creature2.associations[i]) / 2;
+            child.smellEnergyBrainSection.associations[i] = (creature1.smellEnergyBrainSection.associations[i] + creature2.smellEnergyBrainSection.associations[i]) / 2;
         }
 
         // var child = new Creature(world, x, y, width, height, fill, smell, longTermImportanceFactor, minMemoryTime, memoryTimeSpread);

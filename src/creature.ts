@@ -2,26 +2,29 @@ class Creature extends Thing {
     constructor(world: World, x: number, y: number, width: number, height: number, fill: number[], smell: number[], longTermImportanceFactor: number,
         minMemoryTime: number, memoryTimeSpread: number) {
         super(world, x, y, width, height, fill, 1, fill, smell);
-        this.longTermImportanceFactor = longTermImportanceFactor;
-        this.minMemoryTime = minMemoryTime;
-        this.memoryTimeSpread = memoryTimeSpread;
+        this.smellEnergyBrainSection.longTermImportanceFactor = longTermImportanceFactor;
+        this.smellEnergyBrainSection.minMemoryTime = minMemoryTime;
+        this.smellEnergyBrainSection.memoryTimeSpread = memoryTimeSpread;
         for (var i = 0; i < world.noOfSmellTypes; i++) {
-            this.associations.push(1);
+            this.smellEnergyBrainSection.associations.push(1);
             this.desireForSmell.push(1);
         }
         this.associationInterval = setInterval(() => {
-            this.DoAssociating(world)
+            this.smellEnergyBrainSection.DoAssociating(world)
         }, 10);
-        this.NormaliseAssociations;
+        this.smellEnergyBrainSection.NormaliseAssociations();
         this.wellbeing = 200;
+        this.smellEnergyBrainSection.sensoryFunction = () => {
+            return world.GetSmellAtPosition(this.x, this.y, this);
+        };
+        this.smellEnergyBrainSection.valueGetterFunction = () => {
+            return this.wellbeing;
+        }
     }
     maxSize = 100;
     associationInterval;
-    associations: number[] = [];
-    longTermImportanceFactor: number = 20000;
-    minMemoryTime: number = 50;
-    memoryTimeSpread: number = 50;
     idealWellbeing: number = 200;
+    smellEnergyBrainSection = new SmellEnergy();
     whatICanSmell: number[] = [];
     smellUp: number[] = [];
     smellDown: number[] = [];
@@ -38,71 +41,11 @@ class Creature extends Thing {
         this.smellRight = world.GetSmellAtPosition(this.x + 1, this.y, this);
     }
 
-    DoAssociating(world: World) {
-        this.whatICanSmell = world.GetSmellAtPosition(this.x, this.y, this);
-        var whatICouldSmellPreviously = this.whatICanSmell;
-        var wellBeingPreviously = this.wellbeing;
-        var noOfSmells = this.whatICanSmell.length;
-        setTimeout(() => {
-            this.sniff(world);
-            var averageSmell: number[] = new Array(noOfSmells);
-            for (var i = 0; i < noOfSmells; i++) {
-                averageSmell[i] = (this.whatICanSmell[i] + whatICouldSmellPreviously[i]) / 2;
-            }
-            var changeInWellbeing = this.wellbeing - wellBeingPreviously;
-            for (var i = 0; i < noOfSmells; i++) {
-                this.associations[i] += averageSmell[i] * changeInWellbeing / this.longTermImportanceFactor;
-            }
-            this.NormaliseAssociations();
-            //}, Helper.RandomIntFromInterval(50, 3000));
-        }, Helper.RandomIntFromInterval(this.minMemoryTime, this.minMemoryTime + this.memoryTimeSpread));
-    }
-
-    NormaliseAssociations() {
-        var noOfAssociations = this.associations.length;
-        var totalAssociations = this.associations.reduce((total, num) => {
-            return Math.abs(total) + Math.abs(num);
-        });
-        if (totalAssociations == 0) {
-            totalAssociations = 1;
-        }
-        var weightFactor = 100;
-        for (var i = 0; i < noOfAssociations; i++) {
-            this.associations[i] = weightFactor * this.associations[i] / totalAssociations;
-        }
-    }
-
-    GetDesireArray(smell: number[]): number[] {
-        var desireArray = [];
-        var wellbeingDeficit = this.wellbeing < this.idealWellbeing ? this.idealWellbeing - this.wellbeing : 0;
-        for (var i = 0; i < smell.length; i++) {
-            var averageAssociation = 0;
-            this.associations.forEach(association => {
-                averageAssociation += association;
-            });
-            var averageAssociation = averageAssociation / this.associations.length
-            var tempAssociations: number[] = this.associations.map(a => {
-                return a - averageAssociation;
-            });
-            var desire: number;
-            var plainDesire = smell[i] * this.associations[i] * (1 + Math.pow(wellbeingDeficit, 2));
-            var desireWithBoost = smell[i] * tempAssociations[i] * (1 + Math.pow(wellbeingDeficit, 2));
-            if (this.idealWellbeing > this.wellbeing && plainDesire < 0) {
-                desire = desireWithBoost;
-            } else {
-                desire = plainDesire;
-            }
-            desire = desire + desire * Math.abs(wellbeingDeficit);
-            desireArray.push(desire);
-        }
-        return desireArray;
-    }
-
     DecideWhereToMove() {
-        var upDesireArray = this.GetDesireArray(this.smellUp);
-        var downDesireArray = this.GetDesireArray(this.smellDown);
-        var leftDesireArray = this.GetDesireArray(this.smellLeft);
-        var rightDesireArray = this.GetDesireArray(this.smellRight);
+        var upDesireArray = this.smellEnergyBrainSection.GetDesireArray(this.idealWellbeing, this.smellUp);
+        var downDesireArray = this.smellEnergyBrainSection.GetDesireArray(this.idealWellbeing, this.smellDown);
+        var leftDesireArray = this.smellEnergyBrainSection.GetDesireArray(this.idealWellbeing, this.smellLeft);
+        var rightDesireArray = this.smellEnergyBrainSection.GetDesireArray(this.idealWellbeing, this.smellRight);
         this.desireForSmell = [];
         for (var i = 0; i < world.noOfSmellTypes; i++) {
             this.desireForSmell.push(upDesireArray[i] + downDesireArray[i] + leftDesireArray[i] + rightDesireArray[i]);
@@ -129,7 +72,6 @@ class Creature extends Thing {
             if (thing instanceof Creature) {
                 var rand = Helper.RandomIntFromInterval(1, 500);
                 if (rand == 1 && this.isFertile && thing.isFertile) {
-                    debugger;
                     Helper.CreatureReproduction(world, this, thing);
                 }
             }
